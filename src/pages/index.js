@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import CreateAccount from "../../components/dashboard/CreateAccount";
+import Login from "../../components/Auth/Login";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-<h1 className="pt-5 mx-20 text-xl text-center">Let the game Begins 
-  !
-</h1>
+<Login/>
   );
 }
