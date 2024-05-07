@@ -87,7 +87,8 @@ export default function Login({ providers }) {
               theme: "dark",
           });
           console.log("first")
-          await signIn('credentials', { username: data.email , password : data.password });
+          const x = await signIn('credentials', { username: data.email , password : data.password });
+          console.log(x)
 
           // toast
 
@@ -217,7 +218,7 @@ export async function getServerSideProps(context) {
   }
 
   const providers = await getProviders();
-  
+  console.log(providers)
   return {
     props: { providers: providers ? providers : [] },
   };

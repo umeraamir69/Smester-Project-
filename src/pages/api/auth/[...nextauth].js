@@ -33,7 +33,9 @@ export const authOptions = {
                 return user;
               }
               else {
-                return null;
+                return Promise.resolve('/auth/error');
+                
+
               }
             }
       })  
@@ -62,7 +64,6 @@ export const authOptions = {
       return true;
     },
   }
-
 }
 export default NextAuth(authOptions)
 

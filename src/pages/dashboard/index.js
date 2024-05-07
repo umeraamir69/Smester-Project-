@@ -3,11 +3,14 @@ import Navbar from '../../../components/dashboard/Navbar'
 import Login from '../../../components/Auth/Login'
 import CreateAccount from '../../../components/Auth/CreateAccount'
 
-const index = () => {
+
+import { getSessionAndRedirect } from '../../../middlewear/adminCheck'
+
+const index = (props) => {
   return (
     <div>
-      <CreateAccount/>
-
+      <Navbar/>
+      <p>lorem</p>
 
 
     </div>
@@ -15,3 +18,10 @@ const index = () => {
 }
 
 export default index
+
+
+
+
+export async function getServerSideProps(context) {
+    return await getSessionAndRedirect(context);
+}
