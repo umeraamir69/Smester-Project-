@@ -1,29 +1,27 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+
+import React, { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoClose } from "react-icons/io5";
-import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEditSubmit  , handleAddSubmit  }) => {
+
+const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEditSubmit  , handleAddSubmit  }) => {
   const cancelButtonRef = useRef(null);
 
-
-  // State for form fields
-
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-
+ 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    seteditData((prevdata) => ({
-      ...prevdata,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    seteditData({
+      ...data,
+      [name]: type === "checkbox" ? checked : value
+    });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    console.log(data)
+    setdata(initialdata)
+  };
 
   return (
     <div>
@@ -61,7 +59,7 @@ const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEdit
                   <form onSubmit={type=="add" ? handleAddSubmit : handleEditSubmit} className="bg-white">
                     <div className="w-full flex flex-col justify-center  py-2 pl-2 bg-blue-900 rounded-se-md rounded-ss-md ">
                       <span className="flex justify-between pr-5">
-                        <h1 className="font-semibold text-2xl">{type == "add" ? "Add New User" : "Edit User"}</h1>
+                        <h1 className="font-semibold text-2xl">{type == "add" ? "Add New Chaneel" : "Edit Chaneel"}</h1>
                         <IoClose
                           className="text-3xl cursor-pointer"
                           onClick={() => setIsOpen(false)}
@@ -70,7 +68,7 @@ const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEdit
                     </div>
                     <div className="px-4 mt-6 space-y-2">
                       <label
-                        htmlFor="first-name"
+                        htmlFor="name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Name
@@ -80,95 +78,80 @@ const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEdit
                           type="text"
                           name="name"
                           id="name"
-                          autoComplete="given-name"
                           value={data.name}
+                          required
                           onChange={handleChange}
                           className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                          required
                         />
                       </div>
 
                       <label
-                        htmlFor="email"
+                        htmlFor="liveStreamLink"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Email
+                        Live Stream Link
                       </label>
                       <div className="mt-2 pb-">
                         <input
-                          type="email"
-                          name="email"
-                          id="email"
-                          autoComplete="email"
-                          value={data.email}
+                          type="text"
+                          name="liveStreamLink"
+                          required
+                          id="liveStreamLink"
+                          value={data.liveStreamLink}
                           onChange={handleChange}
                           className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                          required
                         />
                       </div>
-                    {type == "add" &&<>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                            Password
-                        </label>
-                        <div className="mt-2 relative">
-                            <input
-                            type={passwordVisible ? "text" : "password"}
-                            name="password"
-                            id="password"
-                            autoComplete="new-password"
-                            value={data.password}
-                            onChange={handleChange}
-                            className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                            required={type="add" ? true : false}
-                            />
-                            <button
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
-                            >
-                            {passwordVisible ? <IoMdEyeOff /> : <IoMdEye />}
-                            </button>
-                        </div>
-                      </>}
 
-                      <div className="grid grid-cols-2 gap-x-3">
-                        <div>
-                          <label
-                            htmlFor="user-type"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            User Type
-                          </label>
-                          <div className="mt-2">
-                            <select
-                              id="user-type"
-                              name="userType"
-                              value={data.userType}
-                              onChange={handleChange}
-                              required
-                              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  sm:text-sm sm:leading-6"
+                      <label
+                        htmlFor="logoLink"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Logo Link
+                      </label>
+                      <div className="mt-2 pb-">
+                        <input
+                          type="text"
+                          name="logoLink"
+                          id="logoLink"
+                          value={data.logoLink}
+                          onChange={handleChange}
+                          className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+
+                      <div className="flex gap-x-4">
+                        <div className="flex flex-col justify-end">
+                          <div className="flex gap-x-2 items-center">
+                            <label
+                              htmlFor="isAllowFree"
+                              className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                              <option value="standard">Standard</option>
-                              <option value="premium">Premium</option>
-                            </select>
+                              Free
+                            </label>
+                            <input
+                              id="isAllowFree"
+                              type="checkbox"
+                              name="isAllowFree"
+                              checked={data.isAllowFree}
+                              onChange={handleChange}
+                              className="w-4 h-4 mr-3"
+                            />
                           </div>
                         </div>
                         <div className="flex flex-col justify-end">
-                          <div className="flex gap-x-5 items-center">
+                          <div className="flex gap-x-2 items-center">
                             <label
-                              htmlFor="admin"
+                              htmlFor="isLive"
                               className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                              Admin
+                              Live
                             </label>
                             <input
-                              id="admin"
+                              id="isLive"
                               type="checkbox"
-                              name="isSuperUser"
-                              checked={data.isSuperUser}
+                              name="isLive"
+                              checked={data.isLive}
                               onChange={handleChange}
                               className="w-4 h-4 mr-3"
                             />
@@ -177,13 +160,10 @@ const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEdit
                       </div>
                     </div>
                     <div className="flex justify-center gap-x-4 mt-4 pb-8">
-                      <button
-                        className="bg-blue-600 text-white px-5 py-2 rounded-md"
-                        type="submit"
-                      >
+                      <button type="submit"
+                        className="bg-blue-600 text-white px-5 py-2 rounded-md">
                         Submit
                       </button>
-              
                     </div>
                   </form>
                 </Dialog.Panel>
@@ -194,7 +174,5 @@ const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEdit
       </Transition.Root>
     </div>
   );
-}
-
-
-export default UserPopup;
+};
+export default ChannelPopup;

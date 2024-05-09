@@ -3,10 +3,11 @@ import User from '../../../models/User';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { HiOutlineRefresh } from "react-icons/hi";
-import UserPopup from '../../../components/Auth/UserPopup';
+import UserPopup from '../../../components/dashboard/UserPopup';
 import { FaRegEdit } from "react-icons/fa";
 import { HiUserAdd } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
+import Navbar from '../../../components/dashboard/Navbar';
 
 
 const Users = (props) => {
@@ -196,6 +197,7 @@ const Users = (props) => {
 
 
       return (
+        <><Navbar/>
       <section className=" p-3 sm:p-5">
         <UserPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
         <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -302,6 +304,7 @@ const Users = (props) => {
           </div>
         </div>
       </section>
+      </>
     )
   }
 

@@ -1,9 +1,9 @@
 import verifyRequestOrigin from '../../../middlewear/verifyRequestOrigin';
 import verifyDbConnection from '../../../middlewear/dbVerification';
 import User from '../../../models/User';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import Channel from '../../../models/Channel';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
 export default async function handler(req, res){
     verifyDbConnection(req , res);
@@ -35,8 +35,6 @@ export default async function handler(req, res){
             if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
             const { name, liveStreamLink, logoLink , isAllowFree ,isLive} = req.body;
 
-
-
             let data = new Channel({
                 name,
                 liveStreamLink,
@@ -44,14 +42,17 @@ export default async function handler(req, res){
                 isAllowFree,
                 isLive
             });
+            console.log(data)
 
             const result = await data.save();
+            console.log("result" , result)
             return res.status(201).json({ status: true, message: "Channel Added Succesfully" , data : result });
     } else {
         return res.status(405).json({ status: false, error: "Method Not Allowed." });
     }
     }
     catch (error){
+        console.log(error)
         return res.status(404).json({ status: false, error: error});
     }
 

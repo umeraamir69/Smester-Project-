@@ -15,7 +15,6 @@ export default async function handler(req, res){
         const user = await User.findOne({email: session.user.email});
         if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
 
-
         if(req.method == "GET"){
            
             const userdata = await User.find()

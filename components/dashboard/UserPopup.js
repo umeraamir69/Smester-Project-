@@ -1,19 +1,14 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoClose } from "react-icons/io5";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-export default function Popup({ isOpen = true, setIsOpen }) {
+const UserPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleEditSubmit  , handleAddSubmit  }) => {
   const cancelButtonRef = useRef(null);
 
+
   // State for form fields
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    userType: "Standard",
-    isAdmin: false,
-  });
+
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -22,25 +17,12 @@ export default function Popup({ isOpen = true, setIsOpen }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    seteditData((prevdata) => ({
+      ...prevdata,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSubmit = () => {
-    // Store or process the form data as needed
-    console.log(formData);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      userType: "Standard",
-      isAdmin: false,
-    });
-    // Close the dialog
-    setIsOpen(false);
-  };
 
   return (
     <div>
@@ -75,10 +57,10 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white">
+                  <form onSubmit={type=="add" ? handleAddSubmit : handleEditSubmit} className="bg-white">
                     <div className="w-full flex flex-col justify-center  py-2 pl-2 bg-blue-900 rounded-se-md rounded-ss-md ">
                       <span className="flex justify-between pr-5">
-                        <h1 className="font-semibold text-2xl">Add User</h1>
+                        <h1 className="font-semibold text-2xl">{type == "add" ? "Add New User" : "Edit User"}</h1>
                         <IoClose
                           className="text-3xl cursor-pointer"
                           onClick={() => setIsOpen(false)}
@@ -98,9 +80,10 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                           name="name"
                           id="name"
                           autoComplete="given-name"
-                          value={formData.name}
+                          value={data.name}
                           onChange={handleChange}
                           className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          required
                         />
                       </div>
 
@@ -116,36 +99,39 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                           name="email"
                           id="email"
                           autoComplete="email"
-                          value={formData.email}
+                          value={data.email}
                           onChange={handleChange}
                           className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          required
                         />
                       </div>
-
-                      <label
-                        htmlFor="password"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Password
-                      </label>
-                      <div className="mt-2 relative">
-                        <input
-                          type={passwordVisible ? "text" : "password"}
-                          name="password"
-                          id="password"
-                          autoComplete="new-password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                        />
-                        <button
-                          type="button"
-                          onClick={togglePasswordVisibility}
-                          className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                    {type == "add" &&<>
+                        <label
+                            htmlFor="password"
+                            className="block text-sm font-medium leading-6 text-gray-900"
                         >
-                          {passwordVisible ? <IoMdEyeOff /> : <IoMdEye />}
-                        </button>
-                      </div>
+                            Password
+                        </label>
+                        <div className="mt-2 relative">
+                            <input
+                            type={passwordVisible ? "text" : "password"}
+                            name="password"
+                            id="password"
+                            autoComplete="new-password"
+                            value={data.password}
+                            onChange={handleChange}
+                            className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                            required={type="add" ? true : false}
+                            />
+                            <button
+                            type="button"
+                            onClick={togglePasswordVisibility}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                            >
+                            {passwordVisible ? <IoMdEyeOff /> : <IoMdEye />}
+                            </button>
+                        </div>
+                      </>}
 
                       <div className="grid grid-cols-2 gap-x-3">
                         <div>
@@ -159,12 +145,13 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                             <select
                               id="user-type"
                               name="userType"
-                              value={formData.userType}
+                              value={data.userType}
                               onChange={handleChange}
+                              required
                               className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  sm:text-sm sm:leading-6"
                             >
-                              <option value="Standard">Standard</option>
-                              <option value="Premium">Premium</option>
+                              <option value="standard">Standard</option>
+                              <option value="premium">Premium</option>
                             </select>
                           </div>
                         </div>
@@ -179,8 +166,8 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                             <input
                               id="admin"
                               type="checkbox"
-                              name="isAdmin"
-                              checked={formData.isAdmin}
+                              name="isSuperUser"
+                              checked={data.isSuperUser}
                               onChange={handleChange}
                               className="w-4 h-4 mr-3"
                             />
@@ -190,16 +177,14 @@ export default function Popup({ isOpen = true, setIsOpen }) {
                     </div>
                     <div className="flex justify-center gap-x-4 mt-4 pb-8">
                       <button
-                        onClick={handleSubmit}
                         className="bg-blue-600 text-white px-5 py-2 rounded-md"
+                        type="submit"
                       >
                         Submit
                       </button>
-                      <button className="bg-red-700 text-white px-5 py-2 rounded-md" onClick={() => setIsOpen(false)}>
-                        Cancel
-                      </button>
+              
                     </div>
-                  </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -209,3 +194,6 @@ export default function Popup({ isOpen = true, setIsOpen }) {
     </div>
   );
 }
+
+
+export default UserPopup;
