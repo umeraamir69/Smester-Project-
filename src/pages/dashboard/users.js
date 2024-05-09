@@ -1,19 +1,28 @@
-  import React, { useEffect ,useState } from 'react'
-  import User from '../../../models/User';
-  import { getServerSession } from 'next-auth';
-  import { authOptions } from '../api/auth/[...nextauth]';
-  import { HiOutlineRefresh } from "react-icons/hi";
+import React, { Fragment , useRef, useEffect ,useState } from 'react'
+import User from '../../../models/User';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { HiOutlineRefresh } from "react-icons/hi";
+import UserPopup from '../../../components/Auth/UserPopup';
+import { FaRegEdit } from "react-icons/fa";
+import { HiUserAdd } from "react-icons/hi";
+import { MdDelete } from "react-icons/md";
 
-  const Users = (props) => {
-    const [data, setdata] = useState();
+
+const Users = (props) => {
+    const [data, setdata] = useState({_id : "" ,name: "" ,email:"" ,userType:"" , isSuperUser :""});
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [selectedType, setSelectedType] = useState('');
+    const [popup, setpopup] = useState(false);
+    const [editData, seteditData] = useState({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false,}); 
+    const [type, settype] = useState();
 
     useEffect(() => {
       if(props.userData) 
         setdata(JSON.parse(props.userData))
-    }, [props]);
+      setFilteredData(JSON.parse(props.userData));
+    }, []);
 
 
     useEffect(() => {
@@ -48,6 +57,12 @@
       setSelectedType(e.target.value);
     };
 
+    const handleUpdate = (data)=>{
+      settype("update")
+      seteditData(data)
+      return setpopup(true);
+    }
+
 
   const handleRefresh = async () => {
     try {
@@ -59,8 +74,10 @@
       });
 
       const resuelt = await request.json();
-      if(request.res){
+      if(resuelt.res){
+        console.log(resuelt)
         setdata(resuelt.data);
+        setFilteredData(resuelt.data)
         console.log("refreshed")
         //toast refreshed
       }
@@ -74,8 +91,113 @@
     }
   };
 
-    return (
+
+
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const request = await fetch("/api/users", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(editData)
+      });
+
+      const resuelt = await request.json();
+      if(resuelt.res){
+          handleRefresh();
+          //toast data added
+          seteditData({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false}); 
+          return setpopup(false);
+      }
+      else{
+        //toast error show error from resulet.message and use 
+        console.log(resuelt.error)
+        return
+      } 
+
+    } catch (error) {
+      //hanlde error here byr toast
+      console.log(error)
+    }
+  };
+
+
+  const handleAddSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const request = await fetch("/api/users", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(editData)
+      });
+
+      const resuelt = await request.json();
+      if(resuelt.res){
+          handleRefresh();
+          //toast data added
+          seteditData({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false}); 
+          return setpopup(false);
+      }
+      else{
+        //toast error show error from resulet.message and use 
+        console.log(resuelt.error)
+        return
+      } 
+
+    } catch (error) {
+      //hanlde error here byr toast
+      console.log(error)
+    }
+  };
+
+
+    const handleAdd =(e)=>{
+      settype("add")
+      seteditData({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false,}); 
+      setpopup(true);
+    }
+
+
+    const handelDelete = async (id)=>{
+      try {
+        const request = await fetch("/api/users", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+          body: JSON.stringify({id})
+        });
+  
+        const resuelt = await request.json();
+        console.log(resuelt)
+        if(resuelt.res){
+            handleRefresh();
+            //toast data added
+            console.log("deleted")
+            return
+        }
+        else{
+          //toast error show error from resulet.message and use 
+          console.log(resuelt.error)
+          return
+        } 
+  
+      } catch (error) {
+        //hanlde error here byr toast
+        console.log(error)
+      }
+    }
+
+
+
+      return (
       <section className=" p-3 sm:p-5">
+        <UserPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
         <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
           <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -94,7 +216,7 @@
                 </div>
                 <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                 <HiOutlineRefresh  className='w-5 h-5 dark:text-white cursor-pointer' onClick={handleRefresh}/>
-                    <button type="button" className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                    <button  onClick={handleAdd} type="button" className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                         <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                         </svg>
@@ -126,41 +248,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredData&&
-                        filteredData.map((data)=>(
-                          <tr className="border-b dark:border-gray-700" key={data._id}>
-                          <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{data.name}</th>
-                          <td className="px-4 py-3">{data.email}</td>
-                          <td className="px-4 py-3">{data.userType}</td>
-                          <td className="px-4 py-3">
-                          <input 
-                          type="checkbox" 
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          checked={data.isSuperUser ? true : false} 
-                          />
-                          </td>
-                          <td className="px-4 py-3 flex items-center justify-end">
-                              <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown" className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
-                                  <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                  </svg>
-                              </button>
-                              <div id="apple-imac-27-dropdown" className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                  <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
-                                      <li>
-                                          <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
-                                      </li>
-                                      <li>
-                                          <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                      </li>
-                                  </ul>
-                                  <div className="py-1">
-                                      <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                                  </div>
-                              </div>
-                          </td>
-                      </tr>))}
-                    </tbody>
+  {filteredData && filteredData.length > 0 ? (
+    filteredData.map((data) => (
+      <tr className="border-b dark:border-gray-700" key={data._id}>
+        <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{data.name}</th>
+        <td className="px-4 py-3">{data.email}</td>
+        <td className="px-4 py-3">{data.userType}</td>
+        <td className="px-4 py-3">
+          <input 
+            type="checkbox" 
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={data.isSuperUser ? true : false} 
+          />
+        </td>
+        <td className="px-4 py-3 flex items-center justify-end">
+        <FaRegEdit className='w-5 h-5'  id=''    onClick={() => handleUpdate(data)} />
+
+        <MdDelete className='w-5 h-5'     onClick={() =>handelDelete(data._id)} />
+        </td>
+      </tr>
+    ))
+  ) : (data&& data.length >0 &&
+    data.map((data) => (
+      <tr className="border-b dark:border-gray-700" key={data._id}>
+        <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{data.name}</th>
+        <td className="px-4 py-3">{data.email}</td>
+        <td className="px-4 py-3">{data.userType}</td>
+        <td className="px-4 py-3">
+          <input 
+            type="checkbox" 
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={data.isSuperUser ? true : false} 
+          />
+        </td>
+        <td className="px-4 py-3 flex items-center justify-end">
+            <FaRegEdit className='w-5 h-5'     onClick={() => handleUpdate(data)} />
+
+            <MdDelete className='w-5 h-5'     onClick={() =>handelDelete(data._id)} />
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
                 </table>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
@@ -190,7 +320,7 @@
       } else {
           const user = await User.findOne({ "email": session.user.email });
           if (user && user.isSuperUser) {
-            const userData = await User.find();
+            const userData = await User.find().select('-password');
               return {
                   props: {
                       userData: JSON.stringify(userData)

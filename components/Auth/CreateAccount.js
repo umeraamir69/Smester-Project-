@@ -84,7 +84,7 @@ const CreateAccount = () => {
     });
     }
 
-    const request = await fetch('/api/auth/createAccount', {
+    const request = await fetch('/api/createAccount', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',

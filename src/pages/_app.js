@@ -60,6 +60,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       theme="dark"
       transition={Slide}
     />
+    
     <Navbar/>
 
     <Component {...pageProps} />
