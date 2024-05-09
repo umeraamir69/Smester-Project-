@@ -41,11 +41,11 @@ export const authOptions = {
       })  
   ],
 
-  pages: {
-    signIn: "/auth/Login",
-    newUser: '/auth/createAccount',
-    error: '/auth/error'
-  },
+    pages: {
+      signIn: "/auth/Login",
+      newUser: '/auth/createAccount',
+      error: '/auth/error'
+    },
 
   callbacks: {
     async signIn({ user}) {
