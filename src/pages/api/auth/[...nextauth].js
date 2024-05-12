@@ -29,13 +29,10 @@ export const authOptions = {
               const { username, password } = credentials;
               const user = await User.findOne({email : username});
               if (user && bcrypt.compareSync(password, user.password)) {
-                console.log(user.name , "Login Succesfully");
                 return user;
               }
               else {
                 return Promise.resolve('/auth/error');
-                
-
               }
             }
       })  
@@ -59,7 +56,6 @@ export const authOptions = {
               isSuperUser: false
           });
           const result = await newUser.save();
-          console.log("New user saved:", result);
       } 
       return true;
     },
