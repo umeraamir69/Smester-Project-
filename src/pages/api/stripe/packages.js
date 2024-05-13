@@ -106,7 +106,7 @@ export default async function handler(req, res) {
             
             if(!user.isSuperUser) return res.status(404).json({status : false , message : "User not allowed."});
             const {id} = req.body;
-            const deleted = await Package.findByIdAndDelete(id);``
+            const deleted = await Package.findByIdAndDelete(id);
             const product = await stripe.products.update(id, {
                 active :false
             });

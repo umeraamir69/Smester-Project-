@@ -13,18 +13,19 @@ export default async function handler(req, res) {
     if(session == null) return res.status(403).json({status : false , message : "Forbidden. Login First"});
     try {
         if (req.method === 'POST') {
-            const { price } = req.body;
+            const { priceId } = req.query;
+
             const checkout = await stripe.checkout.sessions.create({
                 line_items: [
                     {
-                    price: 'price_1PF1yxL2gPnd81nsR92UExVw',
+                    price: priceId,
                     quantity: 1,
                     },
                 ],
                 mode: 'subscription',
                 customer_email : session.user.email,
-                success_url: `${req.headers.origin}/Payment/?Success`,
-                cancel_url: `${req.headers.origin}/Payment/?Error`,
+                success_url: `${req.headers.origin}/auth/AccountDetails?success`,
+                cancel_url: `${req.headers.origin}/auth/AccountDetails?error`,
             });
             return  res.redirect(303, checkout.url) 
     

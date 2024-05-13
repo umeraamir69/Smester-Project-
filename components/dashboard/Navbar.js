@@ -17,12 +17,12 @@ import { MdWifiCalling1 } from 'react-icons/md'
 import { FaFileInvoice } from 'react-icons/fa'
 
 
-const Navbar = (props) => {
+const Navbar = ({sidebar , setsidebar}) => {
     const [show, setshow] = useState(false);
     const [show2, setshow2] = useState(false);
     const [show3, setshow3] = useState(false);
     const [showin, setshowin] = useState(false);
-    const [sidebar, setsidebar] = useState(false)
+
 
     const router = useRouter();
     
@@ -197,9 +197,15 @@ const Navbar = (props) => {
                                     </Link>
                                 </li>
                                 <li>
+                                    <Link href="/dashboard/Games" onClick={handleLink} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <RiTeamFill className="w-6 h-6" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Game</span>
+                                    </Link>
+                                </li>
+                                <li>
                                     <button onClick={() => setshow3(!show3)} type="button" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                                         <FcInspection className='w-6 h-6' />
-                                        <span className="flex-1 ml-3 text-left whitespace-nowrap" >Inspection</span>
+                                        <span className="flex-1 ml-3 text-left whitespace-nowrap" >Finance</span>
                                         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd"></path>
                                         </svg>
@@ -207,27 +213,27 @@ const Navbar = (props) => {
                                     <ul className={`${show3 ? "" : "hidden"} py-2 space-y-2`}>
                                         <li>
                                             <Link href="/Dashboard/InspectionRequest" onClick={handleLink} >
-                                                <div className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Inspection Request</div>
+                                                <div className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Subscription</div>
                                             </Link>
                                         </li>
                                         <li>
                                             <Link href="/Dashboard/Inspection" onClick={handleLink} >
-                                                <div className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Inspection</div>
+                                                <div className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Revenue</div>
                                             </Link>
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <Link href="/Dashboard/CallRequest" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleLink} >
+                                    <Link href="/dashboard/Packages" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleLink} >
                                         <MdWifiCalling1 className="w-6 h-6" />
-                                        <span className="flex-1 ml-3 whitespace-nowrap">Call Request</span>
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Package</span>
                                         <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/Dashboard/Invoice" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleLink} >
+                                    <Link href="/dashboard/Query" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleLink} >
                                         <FaFileInvoice className="w-6 h-6" />
-                                        <span className="flex-1 ml-3 whitespace-nowrap">Invoice</span>
+                                        <span className="flex-1 ml-3 whitespace-nowrap">User Query</span>
                                     </Link>
                                 </li>
 

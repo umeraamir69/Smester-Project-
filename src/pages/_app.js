@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react"
 import Navbar from "../../components/Navbar";
 import { Slide } from 'react-toastify';
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3"
+import GlobalState from "../../context";
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
 
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   }, [router]);
 
   return <>
+   <GlobalState>
   <GoogleReCaptchaProvider reCaptchaKey="6LczkGUoAAAAAIXyuPLX47O3M7mTx8Z8GFxSsV18">
   <SessionProvider session={session}>
     <LoadingBar
@@ -61,10 +63,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       transition={Slide}
     />
     
-    <Navbar/>
+    
 
     <Component {...pageProps} />
     </SessionProvider>
     </GoogleReCaptchaProvider>
+    </GlobalState>
   </>
 }

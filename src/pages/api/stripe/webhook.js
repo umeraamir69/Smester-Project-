@@ -35,6 +35,11 @@ export default async function handler(req, res) {
                 return res.status(200).end();
               }
             } 
+            else if(event.type === 'customer.subscription.created' || event.type === 'charge.succeeded'){
+              const customer = await stripe.customers.retrieve(event.data.object.customer);
+              await User.findOneAndUpdate({email : customer.email} , {userType : 'premium'})
+              return res.status(200).end();
+            }
             else if(event.type === 'customer.subscription.deleted'){
               await User.findOneAndUpdate({email : event.data.object.customer_email} , {userType : 'standard'})
               return res.status(200).end();
