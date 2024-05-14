@@ -12,6 +12,7 @@ import { MdOutlineCardMembership } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
 import { MdOutlineContactSupport } from "react-icons/md";
 
+
 const LeagueData = [
   {
     image: "./images/image1.png",

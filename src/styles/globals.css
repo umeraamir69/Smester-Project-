@@ -20,7 +20,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #9716dc; /* Grey */
+  background: #C1C1C1; /* Grey */
   border-radius: 1rem;
   border: 1px solid transparent;
   background-clip: content-box;
