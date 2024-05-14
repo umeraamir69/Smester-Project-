@@ -41,7 +41,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-blue-300 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -55,13 +55,13 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <form onSubmit={type=="add" ? handleAddSubmit : handleEditSubmit} className="bg-white">
-                    <div className="w-full flex flex-col justify-center  py-2 pl-2 bg-blue-900 rounded-se-md rounded-ss-md ">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <form onSubmit={type=="add" ? handleAddSubmit : handleEditSubmit} className="bg-gray-800">
+                    <div className="w-full flex flex-col justify-center  py-2 pl-2 bg-slate-900 rounded-se-md rounded-ss-md ">
                       <span className="flex justify-between pr-5">
-                        <h1 className="font-semibold text-2xl">{type == "add" ? "Add New Chaneel" : "Edit Chaneel"}</h1>
+                        <h1 className="font-semibold text-2xl text-red-600">{type == "add" ? "Add New Chaneel" : "Edit Chaneel"}</h1>
                         <IoClose
-                          className="text-3xl cursor-pointer"
+                          className="text-3xl cursor-pointer text-white"
                           onClick={() => setIsOpen(false)}
                         />
                       </span>
@@ -69,7 +69,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
                     <div className="px-4 mt-6 space-y-2">
                       <label
                         htmlFor="name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm font-medium leading-6 text-white "
                       >
                         Name
                       </label>
@@ -87,7 +87,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
 
                       <label
                         htmlFor="liveStreamLink"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm font-medium leading-6 text-white"
                       >
                         Live Stream Link
                       </label>
@@ -105,7 +105,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
 
                       <label
                         htmlFor="logoLink"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm font-medium leading-6 text-white"
                       >
                         Logo Link
                       </label>
@@ -125,7 +125,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
                           <div className="flex gap-x-2 items-center">
                             <label
                               htmlFor="isAllowFree"
-                              className="block text-sm font-medium leading-6 text-gray-900"
+                              className="block text-sm font-medium leading-6 text-white"
                             >
                               Free
                             </label>
@@ -143,7 +143,7 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
                           <div className="flex gap-x-2 items-center">
                             <label
                               htmlFor="isLive"
-                              className="block text-sm font-medium leading-6 text-gray-900"
+                              className="block text-sm font-medium leading-6 text-white"
                             >
                               Live
                             </label>
