@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Password from '../../../components/Password';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { toast } from 'react-toastify';
+import Layout from '../../../components/Layout';
+
 
 
 
@@ -162,8 +164,8 @@ const AccountDetails = (props) => {
 
 
   return (
-
-<div class="bg-gray-100">
+<Layout>
+<div class="">
   <Password isOpen={isOpen} setIsOpen={setIsOpen} data={data} setdata={setdata} type={type} handleadd={handleadd}  />
 { userDb &&
     <div class="container mx-auto my-5 p-5">
@@ -337,6 +339,7 @@ const AccountDetails = (props) => {
     </div>
 }
 </div>
+</Layout>
   )
 }
 
@@ -348,14 +351,15 @@ export async function getServerSideProps(context) {
 
   if (session) {
     const user = await User.findOne({"email": session.user.email})
-    const customer = await stripe.customers.search({
-      query: `email:'${session.user.email}'`
-    });
-
-    const invoice = await stripe.invoices.search({
-      query: `customer: '${customer.data[0].id}'`,
-    });
+    console.log(session.user.email)
      if (user) {
+      const customer = await stripe.customers.search({
+        query: `email:'${session.user.email}'`
+      });
+  
+      const invoice = await stripe.invoices.search({
+        query: `customer: '${customer.data[0].id}'`,
+      });
       return {
         props: {
             userData: JSON.stringify(user),

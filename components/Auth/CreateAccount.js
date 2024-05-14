@@ -4,14 +4,23 @@ import Link from 'next/link';
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 import Recaptchav2 from '../universal/Recaptchav2';
 import Loader from '../universal/Loader';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { signIn } from 'next-auth/react';
 import axios from 'axios';
 
-const CreateAccount = () => {
+const CreateAccount = (props) => {
   const [data, setdata] = useState({name :"", email:"" , password:"" });
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [captchav2, setcaptchav2] = useState(false)
   const [loader, setloader] = useState(false)
+  const [providerval, setproviderval] = useState()
+
+  useEffect(() => {
+    setproviderval(Object.values(props.providers))
+}, [props])
+
+
 
   const { executeRecaptcha } = useGoogleReCaptcha()
 
@@ -132,6 +141,13 @@ const CreateAccount = () => {
 
     <form  onSubmit={handleSubmit} className="px-4 py-20 lg:w-96">
       <h2 className="mb-2 text-3xl font-bold">Sign Up</h2>
+
+    <div onClick={() => signIn(providerval[0].id)} class=" cursor-pointer mt-5 px-4 py-2 border flex gap-2 bg-slate-950 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
+        <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
+        <span>Signup with Google</span>
+    </div>
+
+      <hr className='mt-5'/>
 
       <p className="mb-1 font-medium text-gray-500 mt-10">Full Name</p>
       <div className="mb-4 flex flex-col">

@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react'
-
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 const Plans = (props) => {
     const [data, setdata] = useState();
+    const { data: session, status } = useSession()
+    
     useEffect(() => {
         setdata(JSON.parse(props.data.packages))
     }, [props]);
 
 
-    const handlePayment =async (id)=>{
-       
 
-        const request = await fetch("/api/stripe/checkout", {
-      
-            method: "POST",
-            body : JSON.stringify({id })
-        });
-        console.log(request.url)
-    }
   return (
     <main class="max-w-6xl mx-auto pt-10 pb-36 px-8">
 
@@ -45,13 +39,16 @@ const Plans = (props) => {
                     </li>
                 ))}
                 </ul>
-                <form method='post' action={`/api/stripe/checkout?priceId=${data.priceId}`}>
-
+                {status  === "authenticated" ? <form method='post' action={`/api/stripe/checkout?priceId=${data.priceId}`}>
+                
                 <button type='submit' class="flex justify-center items-center bg-indigo-600 rounded-xl py-5 px-4 text-center text-white text-xl">
                 Choose Plan
                 <img src="https://res.cloudinary.com/williamsondesign/arrow-right.svg" class="ml-2" />
                 </button>
-                </form>
+                </form> :   <Link href="/auth/Login"><button  type='submit' class="flex justify-center items-center bg-indigo-600 rounded-xl py-5 px-4 text-center text-white text-xl">
+                Login First
+                <img src="https://res.cloudinary.com/williamsondesign/arrow-right.svg" class="ml-2" />
+                </button></Link>}
             </div>
         ))}
   </div>}

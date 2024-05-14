@@ -5,10 +5,13 @@ import {FiLogIn} from 'react-icons/fi'
 import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import User from "../../../models/User";
+import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 import axios from 'axios';
 import Recaptchav2 from "../../../components/universal/Recaptchav2";
 import { useEffect } from "react";
+import Layout from "../../../components/Layout";
+import Navbar from "../../../components/Navbar";
 
 export default function Login({ providers }) {
 
@@ -111,6 +114,8 @@ export default function Login({ providers }) {
     };
     
   return (
+    <>
+<Navbar/>
 <div className="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
     <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 rounded-xl" >
@@ -179,14 +184,11 @@ export default function Login({ providers }) {
                             </span>
                         </button>
                         <p className="mt-6 text-xs text-gray-600 text-center">
-                            I agree to abide by templatana&lsquo;s
-                            <a href="#" className="border-b border-gray-500 border-dotted">
-                                Terms of Service
-                            </a>
-                            and its
-                            <a href="#" className="border-b border-gray-500 border-dotted">
-                                Privacy Policy
-                            </a>
+                           New at Strema BTW ? &nbsp;
+                            <Link href="/auth/createAccount" className="border-b cursor-pointer font-bold border-gray-500 border-dotted">
+                               Create  Account
+                            </Link>
+                            
                         </p>
                     </form>
                 </div>
@@ -199,6 +201,7 @@ export default function Login({ providers }) {
         </div>
     </div>
 </div>
+</>
   );
 }
 
@@ -210,7 +213,7 @@ export async function getServerSideProps(context) {
     const user = await User.findOne({"email": session.user.email})
 
      if (user && user.isSuperUser) {
-        return { redirect: { destination: "/auth/accountDetails" } };
+        return { redirect: { destination: "/dashboard" } };
       } 
     else {
         return { redirect: { destination: "/" } };

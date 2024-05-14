@@ -7,10 +7,10 @@ import React, { useState } from "react";
 import User from "../../../models/User";
 
 
-const createaccount = () => {
+const createaccount = ({ providers }) => {
   return (
     <div>
-      <CreateAccount/>
+      <CreateAccount providers={providers}/>
     </div>
   )
 }
@@ -39,3 +39,5 @@ export async function getServerSideProps(context) {
     props: { providers: providers ? providers : [] },
   };
 }
+
+

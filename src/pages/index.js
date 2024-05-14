@@ -11,6 +11,7 @@ import Layout from "../../components/Layout";
 import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
 
 export default function Home(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function Home(props) {
     <Layout>
     <div className="flex justify-between ">
       <div></div>
+      
 
       <div class="inline-flex rounded-lg shadow-sm">
         <button
