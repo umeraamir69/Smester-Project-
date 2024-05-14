@@ -1,6 +1,3 @@
-
-
-
 import React, { useContext } from "react";
 import { GlobalContext } from "../context";
 import Link from "next/link";

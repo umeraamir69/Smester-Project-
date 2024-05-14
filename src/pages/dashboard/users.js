@@ -8,6 +8,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { HiUserAdd } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import Navbar from '../../../components/dashboard/Navbar';
+import { toast } from 'react-toastify';
+import Loader from '../../../components/universal/Loader';
 
 
 const Users = (props) => {
@@ -83,15 +85,42 @@ const Users = (props) => {
         setdata(resuelt.data);
         setFilteredData(resuelt.data)
         console.log("refreshed")
-        //toast refreshed
+        toast.info("Refreshed", {
+          position: "top-right",
+          type:"success",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      });
       }
       else{
         console.log(resuelt)
-        //toast error show error from resulet.message
+        toast.info("An Error Occurred", {
+          position: "top-right",
+          type:"error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      });
       }
 
     } catch (error) {
-      //hanlde error here byr toast
+      toast.info("An Error Occurred", {
+        position: "top-right",
+        type:"error",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+    });
     }
   };
 
@@ -111,26 +140,71 @@ const Users = (props) => {
 
       const resuelt = await request.json();
       if(resuelt.res){
+        toast.info("Edit Successfully", {
+          position: "top-right",
+          type:"success",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      }); 
           handleRefresh();
-          //toast data added
           seteditData({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false}); 
           return setpopup(false);
       }
       else{
-        //toast error show error from resulet.message and use 
+        toast.info("User Not Found", {
+          position: "top-right",
+          type:"error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      }); 
         console.log(resuelt.error)
         return
       } 
 
     } catch (error) {
-      //hanlde error here byr toast
+      toast.info("Error Occurred", {
+        position: "top-right",
+        type:"error",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+    }); 
       console.log(error)
     }
   };
 
+  function containsDigitAndLetter(str) {
+    return /[a-zA-Z]/.test(str) && /\d/.test(str);
+}
+
+
+
 
   const handleAddSubmit = async (e) => {
     e.preventDefault()
+    if(!containsDigitAndLetter(editData.password)){
+        return (toast.info("Pass must contain Alphbets and AphaNumeric characters ", {
+          position: "top-right",
+          type:"error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      }))
+    }
     try {
       const request = await fetch("/api/users", {
         headers: {
@@ -142,19 +216,47 @@ const Users = (props) => {
 
       const resuelt = await request.json();
       if(resuelt.res){
+
+        toast.info("Added Successfully ", {
+          position: "top-right",
+          type:"success",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      })
           handleRefresh();
-          //toast data added
           seteditData({_id : "" ,name: "",email: "",password: "",userType: "standard",isSuperUser: false}); 
           return setpopup(false);
       }
       else{
-        //toast error show error from resulet.message and use 
+        toast.info(resuelt.error, {
+          position: "top-right",
+          type:"error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      }) 
         console.log(resuelt.error)
         return
       } 
 
     } catch (error) {
-      //hanlde error here byr toast
+      toast.info("Error Occurred", {
+        position: "top-right",
+        type:"error",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+    }) 
       console.log(error)
     }
   };
@@ -180,19 +282,46 @@ const Users = (props) => {
         const resuelt = await request.json();
         console.log(resuelt)
         if(resuelt.res){
+          toast.info("Deleted Successfully", {
+            position: "top-right",
+            type:"success",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        });
             handleRefresh();
-            //toast data added
             console.log("deleted")
             return
         }
         else{
-          //toast error show error from resulet.message and use 
-          console.log(resuelt.error)
+          toast.info(resuelt.message, {
+            position: "top-right",
+            type:"error",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        }); 
+          console.log(resuelt.message)
           return
         } 
   
       } catch (error) {
-        //hanlde error here byr toast
+        toast.info("An Error Occurred", {
+          position: "top-right",
+          type:"error",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      }); 
         console.log(error)
       }
     }
@@ -200,11 +329,12 @@ const Users = (props) => {
 
 
       return (
-        <div className='bg-[#191C24] lg:h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
+        <div className='bg-[#191C24] '><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
       <section className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "ml-48"}`}>
         <UserPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
+        <h1 className={`text-3xl font-bold  pb-5 text-red-600 ${sidebar == false ? "pl-5" : "pl-20"} `}>Users</h1>
         <div className="mx-auto max-w-screen-xl px-4">
-          <div className={`bg-[#1E1E2C]  shadow-md sm:rounded-lg overflow-hidden mx-auto  ${sidebar == false ? "" : "ml-20"}`}>
+          <div className={`bg-[#1E1E2C]  shadow-md sm:rounded-lg overflow-hidden mx-auto  ${sidebar == false ? "" : "ml-16"}`}>
             <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div className="w-full md:w-1/2">
                     <form onSubmit={(e)=>e.preventDefault()} className="flex items-center">
@@ -221,7 +351,7 @@ const Users = (props) => {
                 </div>
                 <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                 <HiOutlineRefresh  className='w-5 h-5 dark:text-white cursor-pointer' onClick={handleRefresh}/>
-                    <button  onClick={handleAdd} type="button" className="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                    <button  onClick={handleAdd} type="button" className="flex items-center justify-center text-white bg-blue-600 font-medium rounded-lg text-sm px-4 py-2 ">
                         <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                         </svg>
@@ -266,10 +396,10 @@ const Users = (props) => {
             checked={data.isSuperUser ? true : false} 
           />
         </td>
-        <td className="px-4 py-3 flex items-center justify-end">
+        <td className="px-4 py-3 flex items-center justify-end gap-x-2">
         <FaRegEdit className='w-5 h-5'  id=''    onClick={() => handleUpdate(data)} />
 
-        <MdDelete className='w-5 h-5'     onClick={() =>handelDelete(data._id)} />
+        <MdDelete className='w-5 h-5 text-red-600'     onClick={() =>handelDelete(data._id)} />
         </td>
       </tr>
     ))
@@ -286,10 +416,10 @@ const Users = (props) => {
             checked={data.isSuperUser ? true : false} 
           />
         </td>
-        <td className="px-4 py-3 flex items-center justify-end">
+        <td className="px-4 py-3 flex items-center justify-end gap-x-2">
             <FaRegEdit className='w-5 h-5'     onClick={() => handleUpdate(data)} />
 
-            <MdDelete className='w-5 h-5'     onClick={() =>handelDelete(data._id)} />
+            <MdDelete className='w-5 h-5 text-red-600'     onClick={() =>handelDelete(data._id)} />
         </td>
       </tr>
     ))
