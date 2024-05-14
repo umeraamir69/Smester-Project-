@@ -64,7 +64,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`absolute left-0 top-0 z-50 flex h-screen w-56 flex-col overflow-y-hidden bg-black duration-100  ease-linear
+      className={`absolute left-0 top-0 z-50 flex h-screen w-56 flex-col overflow-y-hidden bg-[#222831] duration-100  ease-linear
       ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >

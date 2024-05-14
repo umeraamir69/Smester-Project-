@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const { isSidebarOpen } = useContext(GlobalContext);
 
   return (
-    <div className='flex h-screen overflow-x-hidden bg-slate-900'>
+    <div className='flex h-screen overflow-x-hidden bg-[#393E46]'>
       
       <Sidebar/>
       <div className={`relative flex flex-1 flex-col overflow-y-auto ${isSidebarOpen ? 'lg:ml-56' : 'ml-0'}`}>
