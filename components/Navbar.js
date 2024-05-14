@@ -41,7 +41,7 @@ export default function Navbar() {
 
     <Link href="/membership">
             <button
-                class="relative inline-block p-px font-semibold leading-6 cursor-pointer  text-white no-underline bg-gray-800 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900"><span
+                class="relative inline-block p-px font-semibold leading-6  text-white no-underline bg-gray-800 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900"><span
                     class="absolute inset-0 overflow-hidden rounded-xl"><span
                         class="absolute inset-0 rounded-xl bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100">
 
