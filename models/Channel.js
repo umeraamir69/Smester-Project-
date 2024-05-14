@@ -17,6 +17,9 @@ const Channel = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  otherHeaderLink : {
+    type: 'String',
+  },
   isLive: {
     type: Boolean,
     default: false
@@ -26,3 +29,4 @@ const Channel = new mongoose.Schema({
 mongoose.models = {};
 
 export default mongoose.model("Channel", Channel);
+

@@ -33,7 +33,7 @@ export default async function handler(req, res){
     else if(req.method == "POST"){
 
             if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
-            const { name, liveStreamLink, logoLink , isAllowFree ,isLive} = req.body;
+            const { name, liveStreamLink, logoLink , isAllowFree ,isLive , otherHeaderLink} = req.body;
 
 
             let data = new Channel({
@@ -41,6 +41,7 @@ export default async function handler(req, res){
                 liveStreamLink,
                 logoLink,
                 isAllowFree,
+                otherHeaderLink,
                 isLive
             });
 
@@ -51,12 +52,13 @@ export default async function handler(req, res){
     
     else if (req.method === "PUT") {
         if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
-        const { _id, name, liveStreamLink, logoLink, isAllowFree, isLive } = req.body;
+        const { _id, name, liveStreamLink, logoLink, isAllowFree, isLive , otherHeaderLink } = req.body;
     
         let updatedFields = {};
         if (name) updatedFields.name = name;
         if (liveStreamLink) updatedFields.liveStreamLink = liveStreamLink;
         if (logoLink) updatedFields.logoLink = logoLink;
+        if (otherHeaderLink) updatedFields.otherHeaderLink = otherHeaderLink;
         if (isAllowFree !== undefined) updatedFields.isAllowFree = isAllowFree;
         if (isLive !== undefined) updatedFields.isLive = isLive;
     

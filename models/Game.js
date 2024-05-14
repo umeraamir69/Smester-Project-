@@ -12,7 +12,7 @@ const Game = new mongoose.Schema({
     required: true
   },
   channel: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: [mongoose.Schema.Types.ObjectId],
     ref: 'Channel',
     required: true
   },
@@ -26,7 +26,7 @@ const Game = new mongoose.Schema({
     default: [] 
   },
   matchDate: {
-    type: Date,
+    type: DateTime,
     required: true
   },
   venue:{
@@ -39,6 +39,18 @@ const Game = new mongoose.Schema({
   scoreTeamTwo:{
     type:"Number",
     default : 0
+  },
+  channelLabel : {
+    type: 'String',
+  },
+  highlightsURL : {
+    type: 'String',
+  },
+  primaryHeaderLink : {
+    type: 'String',
+  },
+  otherHeaderLink : {
+    type: 'String',
   },
   isLive : {
     type: 'Boolean',
