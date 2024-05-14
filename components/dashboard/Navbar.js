@@ -64,7 +64,7 @@ const Navbar = ({sidebar , setsidebar}) => {
     }
 
     return (
-        <div className=' print:hidden'>
+        <div className=' print:hidden pb-20'>
             {isAuthenticated ?
                 <>
                     <nav className="fixed top-0 z-50 w-full bg-white   border-b border-gray-200 dark:bg-black dark:border-gray-700">

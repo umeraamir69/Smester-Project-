@@ -200,11 +200,11 @@ const Users = (props) => {
 
 
       return (
-        <div className='bg-[#191C24]  h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
+        <div className='bg-[#191C24] lg:h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
       <section className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "ml-48"}`}>
         <UserPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
-        <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
-          <div className="bg-white dark:bg-[#1E1E2C] relative shadow-md sm:rounded-lg overflow-hidden">
+        <div className="mx-auto max-w-screen-xl px-4">
+          <div className={`bg-[#1E1E2C]  shadow-md sm:rounded-lg overflow-hidden mx-auto  ${sidebar == false ? "" : "ml-20"}`}>
             <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div className="w-full md:w-1/2">
                     <form onSubmit={(e)=>e.preventDefault()} className="flex items-center">
