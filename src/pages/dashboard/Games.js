@@ -16,7 +16,10 @@ import Channel from '../../../models/Channel';
 import Leagues from '../../../models/Leagues';
 
 const Games = (props) => {
-    const [data, setdata] = useState({_id : "" ,teamOne: "" ,teamTwo:"" ,channel:"" , league :"",additionalLinks:"",matchDate:"", venue:"",scoreTeamOne:"" ,scoreTeamTwo :"" ,channelLabel:"",highlightsURL:"" ,primaryHeaderLink:"",otherHeaderLink:"",isLive:false});
+    const [data, setdata] = useState({_id : "" ,teamOne: "" ,teamTwo:"" ,channel:"" , league :"",additionalLinks:"",matchDate:"", venue:"" ,additionalHeaderLink:"",isLive:false});
+
+
+
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [popup, setpopup] = useState(false);
@@ -88,7 +91,8 @@ const Games = (props) => {
 
     const handleUpdate = (data)=>{
     settype("update")
-    seteditData(data)
+    console.log(data)
+    seteditData({_id : data._id ,teamOne: data.teamOne._id ,teamTwo:data.teamOne._id ,channel: data.channel, league :data.league._id, additionalLinks:data.additionalLinks, matchDate:data.matchDate, venue:data.venue ,additionalHeaderLink:data.additionalHeaderLink , isLive:data.isLive});
     return setpopup(true);
     }
 

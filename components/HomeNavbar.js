@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const HomeNavbar = () => {
@@ -12,10 +13,14 @@ const HomeNavbar = () => {
         <div className='flex flex-col justify-center'>
             <div className='flex text-white gap-x-5'>
                 <div className='bg-gray-800 hover:bg-gray-700 py-1 md:px-3 px-2 text-sm md:text-lg rounded-md'>
-                    <h1>Sign in</h1>
+                    <Link href="/auth/Login">
+                        <h1>Sign in</h1>
+                    </Link>
                 </div>
                 <div className='bg-gray-800 hover:bg-gray-700 py-1 md:px-3 px-2 text-sm md:text-lg rounded-md'>
+                    <Link href="/auth/createAccount">
                     <h1>Sign up</h1>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -25,3 +30,5 @@ const HomeNavbar = () => {
 }
 
 export default HomeNavbar
+
+

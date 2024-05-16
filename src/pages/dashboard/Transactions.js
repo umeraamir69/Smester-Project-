@@ -1,22 +1,18 @@
-import React, { Fragment , useRef, useEffect ,useState } from 'react'
+import React, { useEffect ,useState } from 'react'
 import User from '../../../models/User';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { HiOutlineRefresh } from "react-icons/hi";
-import { FaRegEdit } from "react-icons/fa";
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
-import TransactionPopup from '../../../components/dashboard/TransactionPopup';
 
 
 const Transactions = (props) => {
     const [data, setdata] = useState({id : "" ,amount: "" ,description:"" ,currency:"" , created :"" , status :"" , type:""});
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-    const [popup, setpopup] = useState(false);
     const [sidebar, setsidebar] = useState(false)
-    const [editData, seteditData] = useState();
 
 
 
@@ -201,7 +197,7 @@ const Transactions = (props) => {
           const user = await User.findOne({ "email": session.user.email });
           if (user && user.isSuperUser) {
             const balanceTransactions = await stripe.balanceTransactions.list();
-            console.log(balanceTransactions.data[3])
+            console.log(balanceTransactions)
               return {
                   props: {
                       transData: balanceTransactions.data.length > 0 ? JSON.stringify(balanceTransactions.data) : null,

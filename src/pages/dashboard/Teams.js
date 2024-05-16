@@ -1,4 +1,4 @@
-import React, { Fragment , useRef, useEffect ,useState } from 'react'
+import React, {  useEffect ,useState } from 'react'
 import User from '../../../models/User';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
@@ -8,7 +8,6 @@ import TeamPopup from '../../../components/dashboard/TeamPopup';
 import { MdDelete } from "react-icons/md";
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
-import Leagues from '../../../models/Leagues';
 import Team from '../../../models/Team';
 
 

@@ -23,9 +23,6 @@ const Game = new mongoose.Schema({
     ref: 'Leagues',
     required: true
   },
-  posterLink : {
-    type : "String",
-  },
   matchDate: {
     type: Date,
     required: true
@@ -33,6 +30,13 @@ const Game = new mongoose.Schema({
   venue:{
     type: String
   },
+
+
+  posterLink : {
+    type : "String",
+  },
+
+
   additionalLinks: {
     type: String, 
     default: [] 
