@@ -10,10 +10,8 @@ const index = (props) => {
   return (
     <div>
      <Navbar sidebar={sidebar} setsidebar={setsidebar}/>
-      <p>lorem</p>
       
-
-    </div>
+      </div>
   )
 }
 

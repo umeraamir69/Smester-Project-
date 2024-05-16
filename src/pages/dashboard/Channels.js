@@ -10,6 +10,7 @@
     import Navbar from '../../../components/dashboard/Navbar';
     import Channel from '../../../models/Channel';
     import { toast } from 'react-toastify';
+import Loader from '../../../components/universal/Loader';
 
     const Channels = (props) => {
         const [data, setdata] = useState({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :false , isLive:false , otherHeaderLink:""}); 
@@ -21,11 +22,12 @@
         const [isLive, setIsLive] = useState('true');
         const [allowFree, setAllowFree] = useState('true');
         const [sidebar, setsidebar] = useState(false)
-
+        const [loading, setLoading] = useState(true);
         useEffect(() => {
         if(props.chanelData) 
             setdata(JSON.parse(props.chanelData))
             setFilteredData(JSON.parse(props.chanelData));
+            setLoading(false);
         }, []);
 
         useEffect(() => {
@@ -66,7 +68,7 @@
         };
     
         const handleAllowFreeChange = (e) => {
-            console.log(e.target.value)
+            
             setAllowFree(e.target.value);
         };
 
@@ -81,13 +83,14 @@
 
     const handleRefresh = async () => {
         try {
+            setLoading(true)
         const request = await fetch("/api/channel", {
             headers: {
             "Content-Type": "application/json",
             },
             method: "GET",
         });
-
+        setLoading(false)
         const resuelt = await request.json();
         if(resuelt.status){
             setdata(resuelt.data);
@@ -139,6 +142,7 @@
     const handleEditSubmit = async (e) => {
         e.preventDefault()
         try {
+        setLoading(true)
         const request = await fetch("/api/channel", {
             headers: {
             "Content-Type": "application/json",
@@ -146,7 +150,7 @@
             method: "PUT",
             body: JSON.stringify(editData)
         });
-
+        setLoading(false)
         const resuelt = await request.json();
         if(resuelt.status){
             toast.info("Edit Successfully", {
@@ -195,6 +199,7 @@
     const handleAddSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
         const request = await fetch("/api/channel", {
             headers: {
             "Content-Type": "application/json",
@@ -202,7 +207,7 @@
             method: "POST",
             body: JSON.stringify(editData)
         });
-
+            setLoading(false);
         const resuelt = await request.json();
 
         if(resuelt.status){
@@ -258,6 +263,7 @@
 
         const handelDelete = async (id)=>{
         try {
+            setLoading(true)
             const request = await fetch("/api/channel", {
             headers: {
                 "Content-Type": "application/json",
@@ -265,9 +271,8 @@
             method: "DELETE",
             body: JSON.stringify({id})
             });
-    
+            setLoading(false)
             const resuelt = await request.json();
-            console.log(resuelt)
             if(resuelt.status){
                 toast.info("Deleted Successfully", {
                     position: "top-right",
@@ -310,7 +315,9 @@
         }
         }
         return (
-            <div className='bg-[#191C24] h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
+            <div>
+                {loading ? <Loader/> :
+            <div className='bg-[#191C24] '><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
         <section  className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
             <ChannelPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
             <h1 className={`text-3xl font-bold  pb-5 text-red-600 ${sidebar == false ? "pl-5" : "pl-20"} `}>Channels</h1>
@@ -444,6 +451,7 @@
             </div>
             </div>
         </section>
+        </div> }
         </div>
         )
     }

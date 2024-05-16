@@ -6,6 +6,7 @@ import { HiOutlineRefresh } from "react-icons/hi";
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
+import Loader from '../../../components/universal/Loader';
 
 
 const Transactions = (props) => {
@@ -13,6 +14,7 @@ const Transactions = (props) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [sidebar, setsidebar] = useState(false)
+    const [loading, setLoading] = useState(true);
 
 
 
@@ -20,6 +22,7 @@ const Transactions = (props) => {
       if(props.transData !== null) 
         setdata(JSON.parse(props.transData))
         setFilteredData(JSON.parse(props.transData));
+        setLoading(false);
     }, [props]);
 
 
@@ -46,13 +49,14 @@ const Transactions = (props) => {
 
   const handleRefresh = async () => {
     try {
+      setLoading(true);
       const request = await fetch("/api/stripe/transactions", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "GET",
       });
-
+      setLoading(false);
       const resuelt = await request.json();
       if(resuelt.status){
         setdata(resuelt.data);
@@ -101,7 +105,8 @@ const Transactions = (props) => {
 
 
       return (
-
+        <div>
+          {loading? <Loader/> :
         <div className='bg-[#191C24] '><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
       <section className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
         {/* <TransactionPopup isOpen={popup} setIsOpen={setpopup} data={editData} /> */}
@@ -177,6 +182,7 @@ const Transactions = (props) => {
           </div>
         </div>
       </section>
+      </div>}
       </div>
     )
   }
@@ -197,7 +203,6 @@ const Transactions = (props) => {
           const user = await User.findOne({ "email": session.user.email });
           if (user && user.isSuperUser) {
             const balanceTransactions = await stripe.balanceTransactions.list();
-            console.log(balanceTransactions)
               return {
                   props: {
                       transData: balanceTransactions.data.length > 0 ? JSON.stringify(balanceTransactions.data) : null,
