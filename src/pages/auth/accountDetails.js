@@ -351,20 +351,22 @@ export async function getServerSideProps(context) {
 
   if (session) {
     const user = await User.findOne({"email": session.user.email})
-    console.log(session.user.email)
      if (user) {
       const customer = await stripe.customers.search({
         query: `email:'${session.user.email}'`
       });
-  
-      const invoice = await stripe.invoices.search({
-        query: `customer: '${customer.data[0].id}'`,
-      });
+      console.log(customer)
+      let invoice;
+      if(customer.data.length >0){
+         invoice = await stripe.invoices.search({
+          query: `customer: '${customer.data[0].id}'`,
+        });
+      }
       return {
         props: {
             userData: JSON.stringify(user),
             customer : customer.data.length >0 ? JSON.stringify(customer.data[0]) : false,
-            invoice : invoice.data.length >0 ? JSON.stringify(invoice.data) : false,
+            invoice : invoice && invoice.data.length >0 ? JSON.stringify(invoice.data) : false,
         }};
       } 
     else {

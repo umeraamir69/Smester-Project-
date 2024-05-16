@@ -120,6 +120,27 @@ const ChannelPopup = ({ isOpen , setIsOpen  , data , type , seteditData, handleE
                         />
                       </div>
 
+
+
+                      <label
+                        htmlFor="otherHeaderLink"
+                        className="block text-sm font-medium leading-6 text-white"
+                      >
+                        Headers
+                      </label>
+                      <div className="mt-2 pb-">
+                        <textarea
+                          type="text"
+                          name="otherHeaderLink"
+                          id="otherHeaderLink"
+                          value={data.otherHeaderLink}
+                          placeholder="{content-type : 'application/JSON'}"
+                          onChange={handleChange}
+                          className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+
+
                       <div className="flex gap-x-4">
                         <div className="flex flex-col justify-end">
                           <div className="flex gap-x-2 items-center">

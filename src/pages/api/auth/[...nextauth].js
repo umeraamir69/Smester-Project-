@@ -28,12 +28,18 @@ export const authOptions = {
             async authorize(credentials, req) {
               const { username, password } = credentials;
               const user = await User.findOne({email : username});
+              if(user.password){
               if (user && bcrypt.compareSync(password, user.password)) {
                 return user;
-              }
-              else {
+              }  else {
                 return Promise.resolve('/auth/error');
               }
+              }
+            else{
+              return Promise.resolve('/auth/error');
+            }
+          
+            
             }
       })  
   ],
@@ -59,6 +65,9 @@ export const authOptions = {
       } 
       return true;
     },
+    async credentials({ user}) {
+      return true;
+    }
   }
 }
 export default NextAuth(authOptions)

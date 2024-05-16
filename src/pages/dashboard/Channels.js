@@ -12,11 +12,11 @@
     import { toast } from 'react-toastify';
 
     const Channels = (props) => {
-        const [data, setdata] = useState({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :"", isLive:""});
+        const [data, setdata] = useState({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :false , isLive:false , otherHeaderLink:""}); 
         const [searchQuery, setSearchQuery] = useState('');
         const [filteredData, setFilteredData] = useState([]);
         const [popup, setpopup] = useState(false);
-        const [editData, seteditData] = useState({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :"" , isLive:""});
+        const [editData, seteditData] = useState({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :false , isLive:false , otherHeaderLink:""}); 
         const [type, settype] = useState();
         const [isLive, setIsLive] = useState('true');
         const [allowFree, setAllowFree] = useState('true');
@@ -94,8 +94,7 @@
             setFilteredData(resuelt.data)
             setdata(resuelt.data);
             setFilteredData(resuelt.data)
-            console.log("refreshed")
-            toast.info("Refreshed", {
+            return toast.info("Refreshed", {
               position: "top-right",
               type:"success",
               autoClose: 3000,
@@ -105,11 +104,10 @@
               draggable: true,
               theme: "dark",
           });
-            console.log("refreshed")
             
         }
         else{
-            toast.info("An Error Occurred", {
+            return toast.info("An Error Occurred", {
                 position: "top-right",
                 type:"error",
                 autoClose: 3000,
@@ -119,12 +117,10 @@
                 draggable: true,
                 theme: "dark",
             });
-            console.log(resuelt)
-            //toast error show error from resulet.message
         }
 
         } catch (error) {
-            toast.info("An Error Occurred", {
+            return toast.info("An Error Occurred", {
                 position: "top-right",
                 type:"error",
                 autoClose: 3000,
@@ -178,12 +174,11 @@
                 draggable: true,
                 theme: "dark",
             }); 
-            console.log(resuelt.error)
             return
         } 
 
         } catch (error) {
-            toast.info("Error Occurred", {
+            return toast.info("Error Occurred", {
                 position: "top-right",
                 type:"error",
                 autoClose: 3000,
@@ -193,7 +188,6 @@
                 draggable: true,
                 theme: "dark",
             }); 
-        console.log(error)
         }
     };
 
@@ -223,8 +217,7 @@
                 theme: "dark",
             })
             handleRefresh();
-
-            seteditData({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :"" , isLive:""}); 
+            seteditData({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :false , isLive:false , otherHeaderLink:""}); 
             return setpopup(false);
         }
         else{
@@ -238,12 +231,11 @@
                 draggable: true,
                 theme: "dark",
             }) 
-            console.log(resuelt.error)
             return
         } 
 
         } catch (error) {
-            toast.info("Error Occurred", {
+            return toast.info("Error Occurred", {
                 position: "top-right",
                 type:"error",
                 autoClose: 3000,
@@ -253,15 +245,14 @@
                 draggable: true,
                 theme: "dark",
             }) 
-        console.log(error)
         }
     };
 
 
         const handleAdd =(e)=>{
         settype("add")
-        seteditData({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :"" , isLive:""}); 
-        setpopup(true);
+        seteditData({_id : "" ,name: "" ,liveStreamLink:"" ,logoLink:"" , isAllowFree :false , isLive:false , otherHeaderLink:""}); 
+        return setpopup(true);
         }
 
 
@@ -289,7 +280,6 @@
                     theme: "dark",
                 });
                 handleRefresh();
-                console.log("deleted")
                 return
             }
             else{
@@ -303,12 +293,11 @@
                     draggable: true,
                     theme: "dark",
                 }); 
-            console.log(resuelt.error)
             return
             } 
     
         } catch (error) {
-            toast.info("An Error Occurred", {
+            return toast.info("An Error Occurred", {
                 position: "top-right",
                 type:"error",
                 autoClose: 3000,
@@ -318,7 +307,6 @@
                 draggable: true,
                 theme: "dark",
             }); 
-            console.log(error)
         }
         }
         return (
@@ -377,6 +365,7 @@
                                 <th scope="col" className="px-4 py-3">Logo</th>
                                 <th scope="col" className="px-4 py-3">Name</th>
                                 <th scope="col" className="px-4 py-3">Stream Link</th>
+                                <th scope="col" className="px-4 py-3">Headers</th>
                                 <th scope="col" className="px-4 py-3">Allow Free</th>
                                 <th scope="col" className="px-4 py-3">Live</th>
                                 <th scope="col" className="px-4 py-3">
@@ -391,6 +380,7 @@
             <td className="px-4 py-3"><img  className=' rounded-full w-10 h-10' src={data.logoLink} alt="Logo Link" /></td>
             <th scope="row" className="px-4 py-3 font-medium whitespace-nowrap text-white">{data.name}</th>
             <td className="px-4 py-3">{data.liveStreamLink}</td>
+            <td className="px-4 py-3">{data.otherHeaderLink.substring(0,20)}...</td>
             <td className="px-4 py-3">
             <input 
                 type="checkbox" 
@@ -418,6 +408,7 @@
             <td className="px-4 py-3"><img  className=' rounded-full w-10 h-10' src={data.logoLink} alt="Logo Link" /></td>
             <th scope="row" className="px-4 py-3 font-medium  whitespace-nowrap text-white">{data.name}</th>
             <td className="px-4 py-3">{data.liveStreamLink}</td>
+            <td className="px-4 py-3">{data.otherHeaderLink.substring(0,20)}...</td>
             <td className="px-4 py-3">
             <input 
                 type="checkbox" 

@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 const mongoose = require('mongoose');
 
 const Game = new mongoose.Schema({
@@ -21,39 +23,25 @@ const Game = new mongoose.Schema({
     ref: 'Leagues',
     required: true
   },
-  additionalLinks: {
-    type: [String], 
-    default: [] 
+  posterLink : {
+    type : "String",
   },
   matchDate: {
-    type: DateTime,
+    type: Date,
     required: true
   },
   venue:{
-    type: "String"
+    type: String
   },
-  scoreTeamOne:{
-    type:"Number",
-    default : 0
+  additionalLinks: {
+    type: String, 
+    default: [] 
   },
-  scoreTeamTwo:{
-    type:"Number",
-    default : 0
-  },
-  channelLabel : {
-    type: 'String',
-  },
-  highlightsURL : {
-    type: 'String',
-  },
-  primaryHeaderLink : {
-    type: 'String',
-  },
-  otherHeaderLink : {
-    type: 'String',
+  additionalHeaderLink : {
+    type: String,
   },
   isLive : {
-    type: 'Boolean',
+    type: Boolean,
     default : false
   }
 }, { timestamps: true });

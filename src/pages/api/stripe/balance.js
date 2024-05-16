@@ -9,7 +9,7 @@ import verifyDbConnection from "../../../../middlewear/dbVerification";
 export default async function handler(req, res) {
     verifyDbConnection(req , res);
     verifyRequestOrigin(req , res);    
-    
+
     try{
         const session = await getServerSession(req, res, authOptions);
         if(session == null) return res.status(403).json({status : false , message : "Forbidden. Login First"});
