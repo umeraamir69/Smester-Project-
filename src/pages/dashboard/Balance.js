@@ -15,8 +15,8 @@ const Balance = (props) => {
 
 
     useEffect(() => {
-      if(props.transData !== null) 
-        setdata(JSON.parse(props.transData))
+      if(props.blnc !== null) 
+        setdata(JSON.parse(props.blnc))
 
     }, [props]);
 
@@ -100,7 +100,7 @@ const Balance = (props) => {
                 </div>
             </div>
 
-            <div className="overflow-x-auto flex space-x-8">
+            {data &&<div className="overflow-x-auto flex space-x-8">
             <div class="relative flex  flex-col justify-center overflow-hidden ">
 
             <div
@@ -118,40 +118,24 @@ const Balance = (props) => {
     <div class="p-1.5 min-w-full inline-block align-middle">
       <div class="overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
-          <thead>
-            <tr>
-              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Name</th>
-              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Age</th>
-              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Address</th>
-              <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Action</th>
-            </tr>
-          </thead>
+
           <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
             <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">John Brown</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">45</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">New York No. 1 Lake Park</td>
-              <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">Delete</button>
-              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Amount</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.available[0].amount}</td>
+         
             </tr>
 
             <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Jim Green</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">27</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">London No. 1 Lake Park</td>
-              <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">Delete</button>
-              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Currency</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.available[0].currency}</td>
+ 
             </tr>
 
             <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Joe Black</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">31</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">Sidney No. 1 Lake Park</td>
-              <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400">Delete</button>
-              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">source_types</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.available[0].source_types.card}</td>
+      
             </tr>
           </tbody>
         </table>
@@ -164,7 +148,13 @@ const Balance = (props) => {
 
 
         </div>
-            <div class="relative flex  flex-col justify-center overflow-hidden ">
+
+
+
+
+
+
+        <div class="relative flex  flex-col justify-center overflow-hidden ">
 
             <div
                 class="group relative cursor-pointer overflow-hidden  px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
@@ -175,24 +165,48 @@ const Balance = (props) => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                         </svg>
                     </span>
-                    <div
-                        class="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-                        <p>Perfect for learning how the framework works, prototyping a new idea, or creating a demo to share
-                            online.</p>
-                    </div>
-                    <div class="pt-5 text-base font-semibold leading-7">
-                        <p>
-                            <a href="#" class="text-sky-500 transition-all duration-300 group-hover:text-white">Read the docs
-                                &rarr;
-                            </a>
-                        </p>
-                    </div>
+                    <h2 className='text-white  font-bold text-xl py-2 '>Connect Reserved</h2>
+                    <div class="flex flex-col">
+  <div class="-m-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+
+          <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Amount</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.connect_reserved[0].amount}</td>
+         
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Currency</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.connect_reserved[0].currency}</td>
+ 
+            </tr>
+
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">source_types</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.available[0].source_types.card}</td>
+      
+            </tr>
+
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
                 </div>
             </div>
 
 
         </div>
-            <div class="relative flex  flex-col justify-center overflow-hidden ">
+
+
+        <div class="relative flex  flex-col justify-center overflow-hidden ">
 
             <div
                 class="group relative cursor-pointer overflow-hidden  px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
@@ -203,24 +217,41 @@ const Balance = (props) => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                         </svg>
                     </span>
-                    <div
-                        class="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-white/90">
-                        <p>Perfect for learning how the framework works, prototyping a new idea, or creating a demo to share
-                            online.</p>
-                    </div>
-                    <div class="pt-5 text-base font-semibold leading-7">
-                        <p>
-                            <a href="#" class="text-sky-500 transition-all duration-300 group-hover:text-white">Read the docs
-                                &rarr;
-                            </a>
-                        </p>
-                    </div>
+                    <h2 className='text-white  font-bold text-xl py-2 '>Pending</h2>
+                    <div class="flex flex-col">
+  <div class="-m-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+
+          <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Amount</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.connect_reserved[0].amount}</td>
+         
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">Currency</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{data.connect_reserved[0].currency}</td>
+ 
+            </tr>
+
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
                 </div>
             </div>
 
 
         </div>
-            </div>
+          
+          
+            </div>}
 
           </div>
         </div>
@@ -245,10 +276,9 @@ const Balance = (props) => {
           const user = await User.findOne({ "email": session.user.email });
           if (user && user.isSuperUser) {
             const balance = await stripe.balance.retrieve();
-            console.log(balance.available)
               return {
                   props: {
-                      transData: balance ? JSON.stringify(balance) : null,
+                      blnc: balance ? JSON.stringify(balance) : null,
                   },
               };
           }

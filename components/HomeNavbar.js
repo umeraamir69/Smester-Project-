@@ -6,9 +6,11 @@ const HomeNavbar = () => {
     <div className='bg-black'>
     <div className='flex justify-between md:px-10 px-4'>
         <div className='flex flex-col justify-center'>
+            <Link  href="/">
             <div className='flex py-4'>
                 <h1 className='bg-gradient-to-b from-yellow-500 to-red-800 text-transparent bg-clip-text text-xl md:text-3xl font-bold'>StreamBTW</h1>
             </div>
+            </Link>
         </div>
         <div className='flex flex-col justify-center'>
             <div className='flex text-white gap-x-5'>

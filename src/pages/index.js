@@ -8,7 +8,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
 
 
-const index = () => {
+const index = (props) => {
   return (
     <div>
       <HomeNavbar/>
@@ -30,11 +30,11 @@ export async function getServerSideProps(context) {
       return {
           redirect: {
               destination: '/app',
-              permanent: false,
+              permanent: true,
           },
       };
   } 
+  return { props: { title: 'da' } }
       
-
 }
 
