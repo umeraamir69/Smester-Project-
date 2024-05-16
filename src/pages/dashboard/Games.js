@@ -1,13 +1,13 @@
-import React, { Fragment , useRef, useEffect ,useState } from 'react'
+import React, { useEffect ,useState } from 'react'
 import User from '../../../models/User';
 import Game from '../../../models/Game';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { HiOutlineRefresh } from "react-icons/hi";
-import ChannelPopup from '../../../components/dashboard/ChannelPopup';
 import { FaRegEdit } from "react-icons/fa";
-import { HiUserAdd } from "react-icons/hi";
+import { RxCrossCircled  } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
+import { FaRegCircleCheck } from "react-icons/fa6";
 import Team from '../../../models/Team';
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
@@ -17,7 +17,6 @@ import Leagues from '../../../models/Leagues';
 
 const Games = (props) => {
     const [data, setdata] = useState({_id : "" ,teamOne: "" ,teamTwo:"" ,channel:"" , league :"",additionalLinks:"",matchDate:"", venue:"",scoreTeamOne:"" ,scoreTeamTwo :"" ,channelLabel:"",highlightsURL:"" ,primaryHeaderLink:"",otherHeaderLink:"",isLive:false});
-
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [popup, setpopup] = useState(false);
@@ -25,7 +24,6 @@ const Games = (props) => {
     const [type, settype] = useState();
     const [isLive, setIsLive] = useState('true');
     const [sidebar, setsidebar] = useState(false);
-
     const [chanelData, setchanelData] = useState([]);
     const [teamData, setteamData] = useState([]);
     const [leagueData, setleagueData] = useState();
@@ -65,7 +63,10 @@ const Games = (props) => {
     useEffect(() => {
         if (searchQuery) {
             const filtered = data.filter(user =>
-                user.name.toLowerCase().includes(searchQuery.toLowerCase()) 
+                user.teamOne.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.teamTwo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.league.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                user.venue.toLowerCase().includes(searchQuery.toLowerCase()) 
             );
             setFilteredData(filtered);
         } else {
@@ -382,10 +383,11 @@ const handleAddSubmit = async (e) => {
                 <table className="w-full text-sm text-left text-gray-400">
                     <thead className="text-xs  uppercase  bg-gray-700 text-gray-400">
                         <tr>
-                            <th scope="col" className="px-4 py-3">Logo</th>
-                            <th scope="col" className="px-4 py-3">Name</th>
-                            <th scope="col" className="px-4 py-3">Stream Link</th>
-                            <th scope="col" className="px-4 py-3">Allow Free</th>
+                            <th scope="col" className="px-4 py-3">Team One</th>
+                            <th scope="col" className="px-4 py-3">Team Two</th>
+                            <th scope="col" className="px-4 py-3">Channel</th>
+                            <th scope="col" className="px-4 py-3">Date & Time</th>
+                            <th scope="col" className="px-4 py-3">Veneue</th>
                             <th scope="col" className="px-4 py-3">Live</th>
                             <th scope="col" className="px-4 py-3">
                                 <span className="sr-only">Actions</span>
@@ -396,23 +398,18 @@ const handleAddSubmit = async (e) => {
 {filteredData.length > 0 ? (
     filteredData.map((data) => (
     <tr className="border-b border-gray-700" key={data._id}>
-        <td className="px-4 py-3"><img  className=' rounded-full w-10 h-10' src={data.logoLink} alt="Logo Link" /></td>
-        <th scope="row" className="px-4 py-3 font-medium whitespace-nowrap text-white">{data.name}</th>
-        <td className="px-4 py-3">{data.liveStreamLink}</td>
+        <td className="px-4 py-3  "><div className='flex  items-center'><img  className=' rounded-full w-10 h-10 mx-1' src={data.teamOne.logoLink} alt="Logo Link" />{data.teamOne.name}</div></td>
+        <td className="px-4 py-3  "><div className='flex  items-center'><img  className=' rounded-full w-10 h-10 mx-1' src={data.teamTwo.logoLink} alt="Logo Link" />{data.teamTwo.name}</div></td>
         <td className="px-4 py-3">
-        <input 
-            type="checkbox" 
-            className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-            checked={data.isAllowFree ? true : false} 
-        />
+            {data.channel.map((chanel , i)=>(
+                <div key={i} >{chanel.liveStreamLink.substring(0,10)}</div>
+            ))}
+            Total : {data.channel.length}
         </td>
-        <td className="px-4 py-3">
-        <input 
-            type="checkbox" 
-            className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-            checked={data.isLive ? true : false} 
-        />
-        </td>
+
+        <td className="px-4 py-3">{data.matchDate.substring(0,16).replace('T' , ' ')}</td>
+        <td className="px-4 py-3">{data.venue}</td>
+        <td className="px-4 py-3">{data.isLive ? <FaRegCircleCheck className='w-5 h-5 bg-green-800 text-green-300  rounded-full' />: <RxCrossCircled  className='w-5 h-5 bg-red-800 text-red-300  rounded-full' />}</td>
         <td className="px-4 py-5 flex items-center justify-end gap-x-2">
         <FaRegEdit className='w-5 h-5'  id=''    onClick={() => handleUpdate(data)} />
 
@@ -423,27 +420,22 @@ const handleAddSubmit = async (e) => {
 ) : (data&& data.length >0 &&
     data.map((data) => (
         <tr className="border-b border-gray-700" key={data._id}>
-        <td className="px-4 py-3"><img  className=' rounded-full w-10 h-10' src={data.logoLink} alt="Logo Link" /></td>
-        <th scope="row" className="px-4 py-3 font-medium  whitespace-nowrap text-white">{data.name}</th>
-        <td className="px-4 py-3">{data.liveStreamLink}</td>
+        <td className="px-4 py-3  "><div className='flex  items-center'><img  className=' rounded-full w-10 h-10 mx-1' src={data.teamOne.logoLink} alt="Logo Link" />{data.teamOne.name}</div></td>
+        <td className="px-4 py-3  "><div className='flex  items-center'><img  className=' rounded-full w-10 h-10 mx-1' src={data.teamTwo.logoLink} alt="Logo Link" />{data.teamTwo.name}</div></td>
         <td className="px-4 py-3">
-        <input 
-            type="checkbox" 
-            className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-            checked={data.isAllowFree ? true : false} 
-        />
+            {data.channel.map((chanel , i)=>(
+                <div key={i} >{chanel.liveStreamLink.substring(0,10)}</div>
+            ))}
+            Total : {data.channel.length}
         </td>
-        <td className="px-4 py-3">
-        <input 
-            type="checkbox" 
-            className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-            checked={data.isLive ? true : false} 
-        />
-        </td>
+
+        <td className="px-4 py-3">{data.matchDate.substring(0,16).replace('T' , ' ')}</td>
+        <td className="px-4 py-3">{data.venue}</td>
+        <td className="px-4 py-3">{data.isLive ? <FaRegCircleCheck className='w-5 h-5 bg-green-800 text-green-300  rounded-full' />: <RxCrossCircled  className='w-5 h-5 bg-red-800 text-red-300  rounded-full' />}</td>
         <td className="px-4 py-5 flex items-center justify-end gap-x-2">
         <FaRegEdit className='w-5 h-5'  id=''    onClick={() => handleUpdate(data)} />
 
-        <MdDelete className='w-5 h-5 text-red-600'     onClick={() =>handelDelete(data._id)} />
+        <MdDelete className='w-5 h-5 text-red-600' onClick={() =>handelDelete(data._id)} />
         </td>
     </tr>
     ))
@@ -480,11 +472,11 @@ export async function getServerSideProps(context) {
     } else {
         const user = await User.findOne({ "email": session.user.email });
         if (user && user.isSuperUser) {
-            const games = await Game.find()
+            const games = await Game.find().populate('teamOne teamTwo channel league');
             const teams  = await Team.find();
             const channel  = await Channel.find();
             const league = await Leagues.find();
-            console.log(channel)
+            console.log(games)
             return {
                 props: {
                     gameData: JSON.stringify(games),
