@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import GamePopup from '../../../components/dashboard/GamePopup';
 import Channel from '../../../models/Channel';
 import Leagues from '../../../models/Leagues';
-
+import Loader from '../../../components/universal/Loader';
 const Games = (props) => {
     const [data, setdata] = useState({_id : "" ,teamOne: "" ,teamTwo:"" ,channel:"" , league :"",additionalLinks:"",matchDate:"", venue:"" ,additionalHeaderLink:"",isLive:false});
 
@@ -30,11 +30,12 @@ const Games = (props) => {
     const [chanelData, setchanelData] = useState([]);
     const [teamData, setteamData] = useState([]);
     const [leagueData, setleagueData] = useState();
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
     if(props.gameData) {
         setdata(JSON.parse(props.gameData))
         setFilteredData(JSON.parse(props.gameData));
+        setLoading(false);
     }
     if(props.channelData){
         setchanelData(JSON.parse(props.channelData))
@@ -91,7 +92,6 @@ const Games = (props) => {
 
     const handleUpdate = (data)=>{
     settype("update")
-    console.log(data)
     seteditData({_id : data._id ,teamOne: data.teamOne._id ,teamTwo:data.teamOne._id ,channel: data.channel, league :data.league._id, additionalLinks:data.additionalLinks, matchDate:data.matchDate, venue:data.venue ,additionalHeaderLink:data.additionalHeaderLink , isLive:data.isLive});
     return setpopup(true);
     }
@@ -99,20 +99,20 @@ const Games = (props) => {
 
 const handleRefresh = async () => {
     try {
+        setLoading(true);
     const request = await fetch("/api/game", {
         headers: {
         "Content-Type": "application/json",
         },
         method: "GET",
     });
-
+    setLoading(false);
     const resuelt = await request.json();
     if(resuelt.status){
         setdata(resuelt.data);
         setFilteredData(resuelt.data)
         setdata(resuelt.data);
         setFilteredData(resuelt.data)
-        console.log("refreshed")
         toast.info("Refreshed", {
           position: "top-right",
           type:"success",
@@ -123,7 +123,6 @@ const handleRefresh = async () => {
           draggable: true,
           theme: "dark",
       });
-        console.log("refreshed")
         
     }
     else{
@@ -137,8 +136,6 @@ const handleRefresh = async () => {
             draggable: true,
             theme: "dark",
         });
-        console.log(resuelt)
-        //toast error show error from resulet.message
     }
 
     } catch (error) {
@@ -161,6 +158,7 @@ const handleRefresh = async () => {
 const handleEditSubmit = async (e) => {
     e.preventDefault()
     try {
+        setLoading(true);
     const request = await fetch("/api/game", {
         headers: {
         "Content-Type": "application/json",
@@ -168,7 +166,7 @@ const handleEditSubmit = async (e) => {
         method: "PUT",
         body: JSON.stringify(editData)
     });
-
+    setLoading(false);
     const resuelt = await request.json();
     if(resuelt.status){
         toast.info("Edit Successfully", {
@@ -195,8 +193,7 @@ const handleEditSubmit = async (e) => {
             pauseOnHover: true,
             draggable: true,
             theme: "dark",
-        }); 
-        console.log(resuelt.error)
+        });
         return
     } 
 
@@ -210,16 +207,15 @@ const handleEditSubmit = async (e) => {
             pauseOnHover: true,
             draggable: true,
             theme: "dark",
-        }); 
-    console.log(error)
+        });
     }
 };
 
 
 const handleAddSubmit = async (e) => {
     e.preventDefault()
-    console.log(editData)
     try {
+        setLoading(true);
     const request = await fetch("/api/game", {
         headers: {
         "Content-Type": "application/json",
@@ -227,7 +223,7 @@ const handleAddSubmit = async (e) => {
         method: "POST",
         body: JSON.stringify(editData)
     });
-
+    setLoading(false);
     const resuelt = await request.json();
 
     if(resuelt.status){
@@ -256,8 +252,7 @@ const handleAddSubmit = async (e) => {
             pauseOnHover: true,
             draggable: true,
             theme: "dark",
-        }) 
-        console.log(resuelt.error)
+        })
         return
     } 
 
@@ -271,8 +266,7 @@ const handleAddSubmit = async (e) => {
             pauseOnHover: true,
             draggable: true,
             theme: "dark",
-        }) 
-    console.log(error)
+        })
     }
 };
 
@@ -286,6 +280,7 @@ const handleAddSubmit = async (e) => {
 
     const handelDelete = async (id)=>{
     try {
+        setLoading(true);
         const request = await fetch("/api/game", {
         headers: {
             "Content-Type": "application/json",
@@ -293,9 +288,8 @@ const handleAddSubmit = async (e) => {
         method: "DELETE",
         body: JSON.stringify({id})
         });
-
+        setLoading(false);
         const resuelt = await request.json();
-        console.log(resuelt)
         if(resuelt.status){
             toast.info("Deleted Successfully", {
                 position: "top-right",
@@ -308,7 +302,6 @@ const handleAddSubmit = async (e) => {
                 theme: "dark",
             });
             handleRefresh();
-            console.log("deleted")
             return
         }
         else{
@@ -322,7 +315,6 @@ const handleAddSubmit = async (e) => {
                 draggable: true,
                 theme: "dark",
             }); 
-        console.log(resuelt.error)
         return
         } 
 
@@ -337,10 +329,10 @@ const handleAddSubmit = async (e) => {
             draggable: true,
             theme: "dark",
         }); 
-        console.log(error)
     }
     }
     return (
+        <div>{loading ? <Loader/> : 
         <div className='bg-[#191C24] h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
     <section  className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
         <GamePopup Leagues={leagueData} isOpen={popup} setIsOpen={setpopup} data={editData}  Teams={teamData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit} Channels={chanelData}/>
@@ -457,6 +449,7 @@ const handleAddSubmit = async (e) => {
         </div>
         </div>
     </section>
+    </div>}
     </div>
     )
 }
@@ -480,7 +473,6 @@ export async function getServerSideProps(context) {
             const teams  = await Team.find();
             const channel  = await Channel.find();
             const league = await Leagues.find();
-            console.log(games)
             return {
                 props: {
                     gameData: JSON.stringify(games),

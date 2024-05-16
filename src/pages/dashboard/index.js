@@ -27,6 +27,7 @@ const Index = (props) => {
   const [sidebar, setsidebar] = useState(false);
 
   return (
+
     <div className='bg-[#191C24] min-h-screen'><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
     <section  className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
 
@@ -153,6 +154,7 @@ const Index = (props) => {
 </section>      
     </div>
   ) 
+
 }
 
 export default Index

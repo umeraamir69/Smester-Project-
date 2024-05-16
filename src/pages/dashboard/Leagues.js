@@ -9,7 +9,7 @@ import { MdDelete } from "react-icons/md";
 import Navbar from '../../../components/dashboard/Navbar';
 import Leagues from '../../../models/Leagues';
 import { toast } from 'react-toastify';
-
+import Loader from '../../../components/universal/Loader';
 const Users = (props) => {
     const [data, setdata] = useState({_id : "" ,name: "" ,logoLink:""});
     const [searchQuery, setSearchQuery] = useState('');
@@ -18,12 +18,13 @@ const Users = (props) => {
     const [editData, seteditData] = useState({_id : "" ,name: "" ,logoLink:""});
     const [type, settype] = useState();
     const [sidebar, setsidebar] = useState(false)
-
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       if(props.leagueData) 
         setdata(JSON.parse(props.leagueData))
       setFilteredData(JSON.parse(props.leagueData));
+      setLoading(false);
     }, [props]);
 
     useEffect(() => {
@@ -49,19 +50,18 @@ const Users = (props) => {
 
     const handleRefresh = async () => {
         try {
+          setLoading(true);
         const request = await fetch("/api/leagues", {
             headers: {
             "Content-Type": "application/json",
             },
             method: "GET",
         });
-
+        setLoading(false);
         const resuelt = await request.json();
         if(resuelt.status){
-            console.log(resuelt)
             setdata(resuelt.data);
             setFilteredData(resuelt.data)
-            console.log("refreshed")
             toast.info("Refreshed", {
               position: "top-right",
               type:"success",
@@ -74,7 +74,6 @@ const Users = (props) => {
           });
         }
         else{
-            console.log(resuelt)
             toast.info("An Error Occurred", {
               position: "top-right",
               type:"error",
@@ -107,6 +106,7 @@ const Users = (props) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault()
     try {
+      setLoading(true);
       const request = await fetch("/api/leagues", {
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ const Users = (props) => {
         method: "PUT",
         body: JSON.stringify(editData)
       });
-
+      setLoading(false);
       const resuelt = await request.json();
       if(resuelt.status){
         toast.info("Edit Successfully", {
@@ -143,7 +143,6 @@ const Users = (props) => {
           draggable: true,
           theme: "dark",
       }); 
-        console.log(resuelt.error)
         return
       } 
 
@@ -158,7 +157,6 @@ const Users = (props) => {
         draggable: true,
         theme: "dark",
     }); 
-      console.log(error)
     }
   };
 
@@ -166,6 +164,7 @@ const Users = (props) => {
   const handleAddSubmit = async (e) => {
     e.preventDefault()
     try {
+      setLoading(true);
       const request = await fetch("/api/leagues", {
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +172,7 @@ const Users = (props) => {
         method: "POST",
         body: JSON.stringify(editData)
       });
-
+      setLoading(false);
       const resuelt = await request.json();
       if(resuelt.status){
         toast.info("Added Successfully ", {
@@ -201,7 +200,6 @@ const Users = (props) => {
           draggable: true,
           theme: "dark",
       }) 
-        console.log(resuelt.error)
         return
       } 
 
@@ -216,7 +214,6 @@ const Users = (props) => {
         draggable: true,
         theme: "dark",
     }) 
-      console.log(error)
     }
   };
 
@@ -230,6 +227,7 @@ const Users = (props) => {
 
     const handelDelete = async (id)=>{
       try {
+        setLoading(true);
         const request = await fetch("/api/leagues", {
           headers: {
             "Content-Type": "application/json",
@@ -237,9 +235,8 @@ const Users = (props) => {
           method: "DELETE",
           body: JSON.stringify({id})
         });
-  
+        setLoading(false);
         const resuelt = await request.json();
-        console.log(resuelt)
         if(resuelt.status){
           toast.info("Deleted Successfully", {
             position: "top-right",
@@ -252,7 +249,6 @@ const Users = (props) => {
             theme: "dark",
         });
             handleRefresh();
-            console.log("deleted")
             return
         }
         else{
@@ -266,7 +262,6 @@ const Users = (props) => {
             draggable: true,
             theme: "dark",
         });  
-          console.log(resuelt.error)
           return
         } 
   
@@ -281,13 +276,14 @@ const Users = (props) => {
           draggable: true,
           theme: "dark",
       }); 
-        console.log(error)
       }
     }
 
 
 
       return (
+        <div>
+          { loading ? <Loader/> :
         <div className='bg-[#191C24]'><Navbar  sidebar={sidebar} setsidebar={setsidebar}/>
       <section className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
         <LeaguePopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
@@ -367,6 +363,7 @@ const Users = (props) => {
           </div>
         </div>
       </section>
+      </div>}
       </div>
     )
   }
