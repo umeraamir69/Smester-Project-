@@ -1,5 +1,10 @@
 import mongoose from "mongoose"
+const { MongoMemoryServer } =  require('mongodb-memory-server');
+
+
 async function connectToDatabase() {
+    // const mongod = await MongoMemoryServer.create();
+    // const getUri = mongod.getUri();
 
     if (!process.env.MONGODB_URI) {
         throw new Error('Error connection String');

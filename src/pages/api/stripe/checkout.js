@@ -29,7 +29,7 @@ export default async function handler(req, res) {
                             },
                         ],
                         mode: 'subscription',
-
+                        // customer_email : session.user.email,
                         success_url: `${req.headers.origin}/auth/AccountDetails?success`,
                         cancel_url: `${req.headers.origin}/auth/AccountDetails?error`,
                         // customer_creation: "if_required",

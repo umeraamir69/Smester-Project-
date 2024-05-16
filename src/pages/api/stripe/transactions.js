@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
         if (req.method === 'GET') {
             const balanceTransactions = await stripe.balanceTransactions.list();
-            res.status(201).json({status : true , message:"Balance Fetched!", data: balanceTransactions });
+            res.status(201).json({status : true , message:"Balance Fetched!", data: balanceTransactions.data });
         }
         else{
             res.status(404).json({status : false , message : "Methood Not Allowed"});

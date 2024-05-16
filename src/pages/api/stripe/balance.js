@@ -19,6 +19,7 @@ export default async function handler(req, res) {
 
         if (req.method === 'GET') {
             const balance = await stripe.balance.retrieve();
+            console.log(balance)
             res.status(201).json({status : true , message:"Balance Fetched!", data: balance });
         }
         else{
