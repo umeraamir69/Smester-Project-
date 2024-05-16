@@ -116,7 +116,7 @@ const CreateAccount = (props) => {
       <HomeNavbar/>
       <section id='createAccount' className='flex items-center justify-center '>
         <div className="mx-auto flex h-screen max-w-lg flex-col md:max-w-none md:flex-row md:pr-10 bg-black mt-10 rounded-xl pb-5">
-          <div className="max-w-md rounded-3xl hidden bg-gradient-to-tl from-[#252525] to-gray-800 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
+          <div className="max-w-md rounded-3xl bg-gradient-to-tl from-[#252525] to-gray-800 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
           <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-4xl bg-gradient-to-b from-[#FF5F00] to-[#FEB941] text-transparent bg-clip-text text-center pb-20">StreamBTW</h2>
             <p className="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
               Start your <br />

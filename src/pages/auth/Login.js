@@ -174,6 +174,7 @@ export default function Login({ providers }) {
                                             className="w-full px-8 py-4 my-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                             type={showPassword ? "text" : "password"} required placeholder="Password" name="password" value={data.password} onChange={handleChange} />
                                         <button
+                                            type="button"
                                             className="absolute right-0 top-0 bottom-0 flex items-center px-2"
                                             onClick={() => setShowPassword(!showPassword)}
                                         >
