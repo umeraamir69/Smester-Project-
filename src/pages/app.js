@@ -9,7 +9,7 @@ import { useState } from "react";
 
 // import Game from "../../models/Game";
 
-const app = (props)=> {
+const App = (props)=> {
   const [isOpen, setIsOpen] = useState(false);
 
   const openPopup = (props) => {
@@ -89,4 +89,4 @@ const app = (props)=> {
 
 
 
-export default app;
+export default App;
