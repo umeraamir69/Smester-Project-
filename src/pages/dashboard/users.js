@@ -325,7 +325,7 @@ const Users = (props) => {
       return (
         <div>
           {loading ? <Loader/> :
-        <div className='bg-[#191C24] '><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
+        <div className='bg-[#191C24]  h-screen '>
       <section className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
         <UserPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
         <h1 className={`text-3xl font-bold  pb-5 text-red-600 ${sidebar == false ? "pl-5" : "pl-20"} `}>Users</h1>
@@ -365,7 +365,7 @@ const Users = (props) => {
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
                 <table className="w-full text-sm text-left  text-gray-400">
                     <thead className="text-xs  uppercase  bg-gray-700 text-gray-400">
                         <tr>
@@ -378,7 +378,7 @@ const Users = (props) => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className=''>
   {filteredData && filteredData.length > 0 ? (
     filteredData.map((data) => (
       <tr className="border-b border-gray-700" key={data._id}>
@@ -401,7 +401,7 @@ const Users = (props) => {
     ))
   ) : (data&& data.length >0 &&
     data.map((data) => (
-      <tr className="border-b border-gray-700" key={data._id}>
+      <tr className="border-b border-gray-700 " key={data._id}>
         <th scope="row" className="px-4 py-3 font-medium whitespace-nowrap text-white">{data.name}</th>
         <td className="px-4 py-3">{data.email}</td>
         <td className="px-4 py-3">{data.userType}</td>
