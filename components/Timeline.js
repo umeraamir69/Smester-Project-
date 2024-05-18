@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai';
-import { CiHome } from "react-icons/ci";
 import 'react-vertical-timeline-component/style.min.css';
 
-const Timeline = ({ isDarkMode }) => {
+const Timeline = ({ gameData }) => {
   // Sample timeline data
   const timelineData = [
     {
@@ -44,14 +43,14 @@ const Timeline = ({ isDarkMode }) => {
      
       
       <VerticalTimeline layout="1-column-left">
-        {timelineData.map((item, index) => (
+        {gameData && gameData.map((item, index) => (
             <div key={index}>
             <VerticalTimelineElement
             key={index}
             className="vertical-timeline-element--work "
-            date={item.date}
+            date={item.matchDate.substring(0,19).replace('T' , ' ')}
             iconStyle={{ background: "none", color: 'black', fontSize: '16px', borderColor: 'none'  , border:"none"}} // Removed default border
-            icon={<img src={item.logo} alt="Timeline" style={{ borderRadius: '50%', width: '40px', height: '40px' , border:"none" }}  />}
+            icon={<img src={item.posterLink} alt="Timeline" style={{ borderRadius: '50%', width: '40px', height: '40px' , border:"none" }}  />}
             layout="1-column-right"
             contentStyle={{ background: "#222831", maxHeight: accordionOpen[index] ? 'none' : '50px', boxShadow: '0 3px 0 white' }}
             contentArrowStyle={{borderRight: "7px solid #222831"}} // Adjusted height
@@ -59,8 +58,8 @@ const Timeline = ({ isDarkMode }) => {
           >
             <div className="flex items-center justify-between">
               <div className='flex'>
-                <h3 className="vertical-timeline-element-title">{item.title}</h3>
-                <h4 className="vertical-timeline-element-subtitle">{item.subtitle}</h4>
+                <h3 className="vertical-timeline-element-title">{item.teamOne.name} vs {item.teamTwo.name}</h3>
+                <h4 className="vertical-timeline-element-subtitle">{item.venue}</h4>
               </div>
               <button onClick={() => toggleAccordion(index)}>
                 {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
@@ -68,7 +67,7 @@ const Timeline = ({ isDarkMode }) => {
             </div>
             {accordionOpen[index] && (
                 <div className='flex justify-end'>
-                    <p>{item.description}</p>
+                    <p>{item.league.name}</p>
                 </div>
               
             )}

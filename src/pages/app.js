@@ -1,24 +1,40 @@
 import Timeline from "../../components/Timeline";
 import Layout from "../../components/Layout";
-import { useState } from "react";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "./api/auth/[...nextauth]";
-// import Leagues from "../../models/Leagues";
-// import Team from "../../models/Team";
+import { useEffect, useState } from "react";
+import User from "../../models/User";
+import Leagues from "../../models/Leagues";
+import Team from "../../models/Team";
+import Channel from "../../models/Channel";
+import Game from "../../models/Game";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
-
-// import Game from "../../models/Game";
 
 const App = (props)=> {
-  const [isOpen, setIsOpen] = useState(false);
+  const [leagueData, setleagueData] = useState();
+  const [teamData, setteamData] = useState();
+  const [gameData, setgameData] = useState();
+  const [chanelData, setchanelData] = useState();
 
-  const openPopup = (props) => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    if(props.leaguedData != null){
+      setleagueData(JSON.parse(props.leaguedData))
+    }
+    if(props.gameData != null){
+      setgameData(JSON.parse(props.gameData))
+    }
+    if(props.channelData != null){
+      setchanelData(JSON.parse(props.channelData))
+    }
+    if(props.teamData != null){
+      setteamData(JSON.parse(props.teamData))
+    }
+  }, [props]);
+
+
   return (
-    <Layout>
+    <Layout leagueData={leagueData} chanelData={chanelData}>
     <div className="flex justify-between ">
-      <div></div>
       
 
       <div class="inline-flex rounded-lg shadow-sm">
@@ -36,7 +52,7 @@ const App = (props)=> {
         </button>
       </div>
 
-      <form className="form relative">
+      <div className="form relative">
         <button className="absolute left-2 -translate-y-1/2 top-1/2 p-1">
           <svg
             width="17"
@@ -80,13 +96,47 @@ const App = (props)=> {
             ></path>
           </svg>
         </button>
-      </form>
+      </div>
     </div>
-    <Timeline />
+
+
+    <Timeline gameData={gameData}/>
   </Layout>
   )
 }
 
-
-
 export default App;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) {
+      return {
+          redirect: {
+              destination: '/auth/Login',
+              permanent: false,
+          },
+      };
+  } else {
+      const user = await User.findOne({ "email": session.user.email });
+      if (user) {
+        const leaguedData = await Leagues.find();
+        const channelData = await Channel.find();
+        const gameData = await Game.find().populate('teamOne teamTwo channel league');;
+        const teamData = await Team.find();
+          return {
+              props: {
+                  leaguedData: leaguedData.length > 0 ? JSON.stringify(leaguedData) : null,
+                  channelData: channelData.length > 0 ? JSON.stringify(channelData) : null,
+                  gameData: gameData.length > 0 ? JSON.stringify(gameData) : null,
+                  teamData: teamData.length > 0 ? JSON.stringify(teamData) : null,
+              },
+          };
+      }
+      return {
+          redirect: {
+              destination: '/',
+              permanent: false,
+          },
+      };
+  }
+}

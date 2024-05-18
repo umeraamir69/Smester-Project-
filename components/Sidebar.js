@@ -50,7 +50,7 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({chanelData , leagueData}) {
   const { isSidebarOpen, toggleSidebar } = useContext(GlobalContext);
   const pathName = usePathname();
   const [isSettingsOpen, setIsSettingOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`absolute left-0 top-0 z-50 flex h-screen w-56 flex-col overflow-y-hidden bg-[#222831] duration-100  ease-linear
+      className={`absolute left-0 top-0 z-50 flex h-screen   w-64 flex-col overflow-y-hidden bg-[#222831] duration-100  ease-linear
       ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >
@@ -135,42 +135,26 @@ export default function Sidebar() {
               </div>
               <h1 className="px-4 text-xl font-semi-bold pt-3 pb-3">Leauges</h1>
               <li className=" rounded-lg">
-                <label
-                  onClick={handleLeague}
-                  className={`group relative cursor-pointer  flex items-center gap-2.5 gap-x-8 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark`}
-                >
-                  <img
-                    src="./images/image1.png"
-                    alt=""
-                    className="w-8 h-8 rounded-full border-2 border-gray-400"
-                  />
-                  <p>MBL</p>
-                  {isLeagueOpen ? (
-                    <BiChevronUp size={27} />
-                  ) : (
-                    <BiChevronDown size={27} />
-                  )}
-                </label>
-                {isLeagueOpen && (
-                  <div className="px-4 py-2 text-sm ">
+
+  
+                  <div className="py-2 text-sm ">
                     {/* Additional content for Settings */}
-                    <div className="flex flex-col gap-y-5 pl-5 pt-3">
-                      {LeagueData.map((item, index) => (
-                        <div className="flex gap-x-10 text-white" key={index}>
+                    <div className="flex flex-col gap-y-4 pl-5 pt-3">
+                      {leagueData && leagueData.map((item) => (
+                        <div className="flex gap-x-5 text-white" key={item._id}>
                           <img
-                            src={item.image}
+                            src={item.logoLink}
                             alt=""
-                            className="w-8 h-8 rounded-full border-2 border-gray-400"
+                            className="w-8 h-8 rounded-full bg-white "
                           />
                           <div className="flex flex-col justify-center">
                           <li>{item.name}</li>
                           </div>
-                          
                         </div>
                       ))}
                     </div>
                   </div>
-                )}
+
               </li>
               <div className="mt-2">
                 <div
@@ -183,19 +167,19 @@ export default function Sidebar() {
               </div>
               <h1 className="px-4 text-xl font-semi-bold pt-3 pb-3">Channels</h1>
               <div className="flex flex-col gap-y-5 pl-5 pt-3">
-                      {LeagueData.map((item, index) => (
-                        <div className="flex gap-x-5 text-white" key={index}>
+                      {chanelData&& chanelData.map((item) => (
+                        <div className="flex gap-x-5 text-white" key={item._id}>
                           <div className="flex flex-col justify-center">
                           <img
-                            src={item.image}
+                            src={item.logoLink}
                             alt=""
-                            className="w-8 h-8 rounded-full border-2 border-gray-400"
+                            className="w-8 h-8 rounded-full"
                           />
                           </div>
                          
                           <div className="flex flex-col justify-center">
                           <li>{item.name}</li>
-                          <li className="text-[12px]">hhhjh</li>
+                          <li className="text-[12px]">{item.isAllowFree ? "Free" : "Only for Premium Members"}</li>
                           </div>
                           
                         </div>
