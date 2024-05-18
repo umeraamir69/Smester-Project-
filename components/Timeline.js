@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai';
 import 'react-vertical-timeline-component/style.min.css';
-
 const Timeline = ({ gameData }) => {
   // Sample timeline data
   const timelineData = [
@@ -11,16 +10,16 @@ const Timeline = ({ gameData }) => {
       title: "PSG vs Borssia Dortmund",
       league: "Champion League",
       description: "Creative Direction, User Experience, Visual Design, Project Management, Team Leading",
-      logo:"./images/image1.png",
-      image:"./images/image1.png",
+      logo: "./images/image1.png",
+      image: "./images/image1.png",
     },
     {
       time: "12:00 am",
       title: "PSG vs Borssia Dortmund",
       league: "Champion League",
       description: "Creative Direction, User Experience, Visual Design, Project Management, Team Leading",
-      logo:"./images/image1.png",
-      image:"",
+      logo: "./images/image1.png",
+      image: "",
     },
   ];
 
@@ -35,45 +34,63 @@ const Timeline = ({ gameData }) => {
   };
 
   return (
-    <div className="  pt-20 text-white">
+    <div className="pt-10 md:pt-20 text-white">
       {/* Horizontal line above timeline start */}
-      <div className=' px-2 md:px-3 lg:px-5 xl:px-10'>
-      <div style={{ borderTop: '2px solid #ccc', marginBottom: '0px' , padding:''}}></div>
+      <div className='px-2 md:px-3 lg:px-5 xl:px-10'>
+        <div style={{ borderTop: '3px solid white', marginBottom: '0px' }}></div>
       </div>
-     
-      
-      <VerticalTimeline layout="1-column-left">
+
+      <VerticalTimeline layout="1-column-left" lineColor="white" lineStyle={{ width: '20px' }} >
         {gameData && gameData.map((item, index) => (
-            <div key={index}>
+          <div key={index}>
             <VerticalTimelineElement
-            key={index}
-            className="vertical-timeline-element--work "
-            date={item.matchDate.substring(0,19).replace('T' , ' ')}
-            iconStyle={{ background: "none", color: 'black', fontSize: '16px', borderColor: 'none'  , border:"none"}} // Removed default border
-            icon={<img src={item.posterLink} alt="Timeline" style={{ borderRadius: '50%', width: '40px', height: '40px' , border:"none" }}  />}
-            layout="1-column-right"
-            contentStyle={{ background: "#222831", maxHeight: accordionOpen[index] ? 'none' : '50px', boxShadow: '0 3px 0 white' }}
-            contentArrowStyle={{borderRight: "7px solid #222831"}} // Adjusted height
-            style={{ marginBottom: '10px', marginTop: '5px' }} // Adjusted margin for spacing
-          >
-            <div className="flex items-center justify-between">
-              <div className='flex'>
-                <h3 className="vertical-timeline-element-title">{item.teamOne.name} vs {item.teamTwo.name}</h3>
-                <h4 className="vertical-timeline-element-subtitle">{item.venue}</h4>
-              </div>
-              <button onClick={() => toggleAccordion(index)}>
-                {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
-              </button>
-            </div>
-            {accordionOpen[index] && (
-                <div className='flex justify-end'>
-                    <p>{item.league.name}</p>
+              key={index}
+              className="vertical-timeline-element--work"
+              date=""
+              iconStyle={{ background: "none", color: 'black', fontSize: '16px', borderColor: 'none', border: "none" }} // Removed default border
+              icon={<img className="bg-white" src={item.teamOne.logoLink} alt="Timeline" style={{ borderRadius: '50%', width: '40px', height: '40px', border: "none" }} />}
+              layout="1-column-right"
+              contentStyle={{ background: "#1E1E2C", minHeight: accordionOpen[index] ? 'none' : '60px', boxShadow: '0 3px 0 white' }}
+              contentArrowStyle={{ borderRight: "7px solid #1E1E2C" }} // Adjusted height
+              style={{ marginBottom: '10px', marginTop: '5px' }} // Adjusted margin for spacing
+            >
+              <div 
+              onClick={() => toggleAccordion(index)}>
+              <div className="grid grid-cols-4 sm:grid-cols-10 hover:cursor-pointer "  >
+                <div className='sm:grid sm:col-span-9 sm:grid-cols-6 col-span-3'>
+                <div className='sm:flex flex-col justify-center sm:col-span-3'>
+                  <h3 className="vertical-timeline-element-title text-sm">{item.teamOne.name}  vs  {item.teamTwo.name}</h3>
                 </div>
+                <div className='flex flex-col justify-center'>
+                <h4 className="vertical-timeline-element-subtitle ">{item.venue}</h4>
+                </div>
+                <div className='-mt-4 col-span-2'>
+                <p>{item.matchDate.substring(0, 19).replace('T', ' ')}</p>
+                </div>
+                
+                </div>
+                
+                <div className='sm:flex justify-end hidden'>
+                <button>
+                  {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
+                </button>
+                </div>
+                <div className='flex justify-end sm:hidden'>
+                <button>
+                  {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
+                </button>
+                </div>
+              </div>
+              {accordionOpen[index] && (
+                <div className='flex justify-end'>
+                  <p>{item.league.name}</p>
+                </div>
+              )}
+              </div>
               
-            )}
-          </VerticalTimelineElement>
-            </div>
-          
+              
+            </VerticalTimelineElement>
+          </div>
         ))}
       </VerticalTimeline>
     </div>

@@ -7,7 +7,7 @@ const Layout = ({ children , leagueData , chanelData}) => {
   const { isSidebarOpen } = useContext(GlobalContext);
 
   return (
-    <div className='flex h-screen overflow-x-hidden bg-[#393E46]'>
+    <div className='flex h-screen overflow-x-hidden bg-[#191C24]'>
       
       <Sidebar leagueData={leagueData} chanelData={chanelData}/>
       <div className={`relative flex flex-1 flex-col overflow-y-auto ${isSidebarOpen ? 'lg:ml-56' : 'ml-0'}`}>

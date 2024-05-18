@@ -65,12 +65,12 @@ export default function Sidebar({chanelData , leagueData}) {
 
   return (
     <aside
-      className={`absolute left-0 top-0 z-50 flex h-screen   w-64 flex-col overflow-y-hidden bg-[#222831] duration-100  ease-linear
+      className={`absolute left-0 top-0 z-50 flex h-screen   w-64 flex-col overflow-y-hidden bg-black duration-100  ease-linear
       ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
       `}
     >
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 pt-4">
-        <Link href={"/"} className="text-[30px] text-white">
+      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 pt-7">
+        <Link href={"/"} className="text-2xl sm:text-[30px] bg-gradient-to-tr font-bold font-serif italic from-[#FF5F00] to-red-700 text-transparent bg-clip-text">
           StreamBTW
         </Link>
       </div>
@@ -119,6 +119,13 @@ export default function Sidebar({chanelData , leagueData}) {
                       <div className="flex gap-x-5">
                         <MdOutlineContactSupport size={25} />
                         <li>Support</li>
+                      </div>
+                      <div className="">
+                        <Link href="/membership" className="flex gap-x-5">
+                        <MdOutlineContactSupport size={25} />
+                        <li>Become Premium</li>
+                        </Link>
+                        
                       </div>
                     </div>
                   </div>
