@@ -1,3 +1,4 @@
+
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { MdConnectWithoutContact } from "react-icons/md";
@@ -46,10 +47,11 @@ const Navbar = ({sidebar , setsidebar}) => {
     }
 
     return (
-        <div className=' print:hidden lg:pb-20 pb-14'>
+       
+        <div className=' print:hidden lg:pb-20 pb-20'>
             {status === "authenticated" ?
                 <>
-                    <nav className="fixed top-0 lg:z-10 z-50 w-full  bg-black border-gray-700">
+                    <nav className="fixed top-0 lg:z-10 z-20 w-full  bg-black border-gray-700">
                         <div className="px-3 py-3 lg:px-5 lg:pl-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center justify-start">
@@ -76,8 +78,8 @@ const Navbar = ({sidebar , setsidebar}) => {
                                         <div>
                                             <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" onClick={() => { setshowin(!showin) }}>
                                             {session.user.image ? 
-                                                <img class="h-8 w-8 rounded-full" src={session.user.image} alt=""/> : <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                                <span class="font-medium text-gray-600 dark:text-gray-300">{session.user.name.substring(0,1)}</span>
+                                                <img className="h-8 w-8 rounded-full" src={session.user.image} alt=""/> : <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                                <span className="font-medium text-gray-600 dark:text-gray-300">{session.user.name.substring(0,1)}</span>
                                             </div>}
                                             </button>
                                         </div>
@@ -106,7 +108,7 @@ const Navbar = ({sidebar , setsidebar}) => {
                         </div>
                     </nav>
 
-                    <aside className={`fixed top-0   ${sidebar ? "left-64 md:left-0" : "hidden"}  lg:z-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full  sm:translate-x-0 dark:bg-black "`}>
+                    <aside className={`fixed top-0   ${sidebar ? "left-64 md:left-0" : "hidden"}  lg:z-0 z-10 w-64 h-screen pt-20 transition-transform -translate-x-full  sm:translate-x-0 dark:bg-black "`}>
                         <div className="h-full px-3 pb-4 overflow-y-auto bg-black">
                             <ul className="space-y-2 font-medium">
                                 <li>

@@ -33,7 +33,6 @@ import Loader from '../../../components/universal/Loader';
         useEffect(() => {
             if(data.length >0){
                 if (isLive !== '' && allowFree !== '') {
-                    // Filter data based on isLive and allowFree values
                     const filtered = data.filter(channel =>
                         channel.isLive == isLive && channel.isAllowFree == allowFree
                     );
@@ -318,37 +317,38 @@ import Loader from '../../../components/universal/Loader';
             <div>
                 {loading ? <Loader/> :
             <div className='bg-[#191C24] '><Navbar sidebar={sidebar} setsidebar={setsidebar}/>
-        <section  className={` p-3 sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
+        <section  className={`sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
             <ChannelPopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
             <h1 className={`text-3xl font-bold  pb-5 text-red-600 ${sidebar == false ? "pl-5" : "pl-20"} `}>Channels</h1>
             <div className="mx-auto max-w-screen-xl px-4 ">
             <div className={`bg-[#1E1E2C]  shadow-md sm:rounded-lg overflow-hidden mx-auto  ${sidebar == false ? "" : "lg:ml-16"}`}>
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                    <div className="w-full md:w-1/2">
+                    <div className="flex justify-between gap-x-6 sm:gap-x-0 sm:grid w-full md:w-1/2">
                         <form onSubmit={(e)=>e.preventDefault()} className="flex items-center text-gray-400">
-                            <label for="simple-search" className="sr-only">Search</label>
+                            <label htmlFor="simple-search" className="sr-only">Search</label>
                             <div className="relative w-full">
                                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" className="w-5 h-5 " fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    <svg aria-hidden="true" className="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                                     </svg>
                                 </div>
                                 <input type="text" id="simple-search" className="  text-sm rounded-lg  block w-full pl-10 p-2 bg-gray-700 border-gray-600 placeholder-gray-400 text-white " placeholder="Search" value={searchQuery} onChange={handleSearch} required="" />
                             </div>
                         </form>
+                        <HiOutlineRefresh  className='w-5 h-5 text-white cursor-pointer mt-2 sm:hidden' onClick={handleRefresh}/>
                     </div>
                     <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <HiOutlineRefresh  className='w-5 h-5 text-white cursor-pointer' onClick={handleRefresh}/>
+                    <HiOutlineRefresh  className='w-5 h-5 text-white cursor-pointer hidden sm:flex' onClick={handleRefresh}/>
                         <button  onClick={handleAdd} type="button" className="flex items-center justify-center text-white bg-blue-600 font-medium rounded-lg text-sm px-4 py-2  ">
-                            <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                            <svg className="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clipRule="evenodd" fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                             </svg>
                             Add Channel
                         </button>
 
-                        <div className="flex items-center space-x-3 w-full md:w-auto">
+                        <div className="flex items-center space-x-3 w-full md:w-auto pt-3 pb-3 ">
                             <select onChange={handleIsLiveChange} className="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium  focus:outline-none rounded-lg border hover:text-primary-700 focus:z-10 focus:ring-4  bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700"> 
-                                <option selected disabled>Is Live?</option>
+                                <option  disabled>Is Live?</option>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
@@ -356,7 +356,7 @@ import Loader from '../../../components/universal/Loader';
 
                         <div className="flex items-center space-x-3 w-full md:w-auto">
                             <select onChange={handleAllowFreeChange} className="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium  focus:outline-none rounded-lg border hover:text-primary-700    bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700"> 
-                                <option selected disabled>Allow Free?</option>
+                                <option  disabled>Allow Free?</option>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
@@ -365,7 +365,7 @@ import Loader from '../../../components/universal/Loader';
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="relative overflow-x-auto">
                     <table className="w-full text-sm text-left text-gray-400">
                         <thead className="text-xs  uppercase  bg-gray-700 text-gray-400">
                             <tr>
@@ -393,6 +393,7 @@ import Loader from '../../../components/universal/Loader';
                 type="checkbox" 
                 className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                 checked={data.isAllowFree ? true : false} 
+                onChange={() => {}} 
             />
             </td>
             <td className="px-4 py-3">
@@ -400,6 +401,7 @@ import Loader from '../../../components/universal/Loader';
                 type="checkbox" 
                 className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                 checked={data.isLive ? true : false} 
+                onChange={() => {}} 
             />
             </td>
             <td className="px-4 py-5 flex items-center justify-end gap-x-2">
@@ -421,6 +423,7 @@ import Loader from '../../../components/universal/Loader';
                 type="checkbox" 
                 className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                 checked={data.isAllowFree ? true : false} 
+                onChange={() => {}} 
             />
             </td>
             <td className="px-4 py-3">
@@ -428,6 +431,7 @@ import Loader from '../../../components/universal/Loader';
                 type="checkbox" 
                 className="w-4 h-4 text-blue-600  rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                 checked={data.isLive ? true : false} 
+                onChange={() => {}} 
             />
             </td>
             <td className="px-4 py-5 flex items-center justify-end gap-x-2">
