@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import Timeline from "../../components/Timeline";
 import Layout from "../../components/Layout";
 import { useEffect, useState } from "react";
@@ -8,9 +9,10 @@ import Channel from "../../models/Channel";
 import Game from "../../models/Game";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-
+import { GlobalContext } from '../../context/index';
 
 const App = (props)=> {
+  const { isSidebarOpen } = useContext(GlobalContext);
   const [leagueData, setleagueData] = useState();
   const [teamData, setteamData] = useState();
   const [gameData, setgameData] = useState();
@@ -34,25 +36,25 @@ const App = (props)=> {
 
   return (
     <Layout leagueData={leagueData} chanelData={chanelData}>
-    <div className="flex justify-between ">
+    <div className={`sm:flex justify-between overflow-x-hidden ${isSidebarOpen ? 'lg:pl-10' : ''}`}>
       
 
-      <div class="inline-flex rounded-lg shadow-sm">
+      <div className="sm:inline-flex flex justify-center rounded-lg shadow-sm">
         <button
           type="button"
-          class="py-2 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 "
+          className="py-2 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 "
         >
           Upcoming
         </button>
         <button
           type="button"
-          class="py-2 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 "
+          className="py-2 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 "
         >
           Past
         </button>
       </div>
 
-      <div className="form relative">
+      <div className="form relative mt-4 sm:mt-0">
         <button className="absolute left-2 -translate-y-1/2 top-1/2 p-1">
           <svg
             width="17"

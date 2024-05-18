@@ -284,7 +284,7 @@ const Users = (props) => {
       return (
         <div>
           { loading ? <Loader/> :
-        <div className='bg-[#191C24]'><Navbar  sidebar={sidebar} setsidebar={setsidebar}/>
+        <div className='bg-[#191C24] min-h-screen'><Navbar  sidebar={sidebar} setsidebar={setsidebar}/>
       <section className={` sm:p-5  ${sidebar == false ? "ml-0" : "lg:ml-48"}`}>
         <LeaguePopup isOpen={popup} setIsOpen={setpopup} data={editData}  seteditData={seteditData} type={type} handleEditSubmit={handleEditSubmit}  handleAddSubmit ={handleAddSubmit}/>
         <h1 className={`text-3xl font-bold  pb-5 text-red-600 ${sidebar == false ? "pl-5" : "pl-20"} `}>Leagues</h1>

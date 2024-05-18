@@ -128,8 +128,8 @@ const CreateAccount = (props) => {
           <form onSubmit={handleSubmit} className="px-4 py-4 lg:w-96 bg-blak my-5 rounded-xl ">
             <h2 className="mb-2 text-3xl font-bold text-white">Sign Up</h2>
 
-            <div onClick={() => signIn(providerval[0].id)} class=" cursor-pointer  px-4 py-2 text-white rounded-md flex gap-2 bg-[#252525]  hover:shadow transition duration-150">
-              <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
+            <div onClick={() => signIn(providerval[0].id)} className=" cursor-pointer  px-4 py-2 text-white rounded-md flex gap-2 bg-[#252525]  hover:shadow transition duration-150">
+              <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
               <span>Signup with Google</span>
             </div>
 

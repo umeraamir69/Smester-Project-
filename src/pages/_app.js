@@ -67,6 +67,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     
 
 
+    {/* {loader && <Loader/>} */}
+
+
     <Component {...pageProps} />
     </SessionProvider>
     </GoogleReCaptchaProvider>
