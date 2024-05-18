@@ -53,7 +53,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
     <ToastContainer
       position="top-right"
-      autoClose={4000}
+      autoClose={3000}
       hideProgressBar={true}
       newestOnTop={false}
       closeOnClick
@@ -65,7 +65,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       transition={Slide}
     />
     
-    
+    {loader && <Loader/>}
 
     <Component {...pageProps} />
     </SessionProvider>
