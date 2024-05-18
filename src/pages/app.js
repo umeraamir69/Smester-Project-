@@ -120,7 +120,7 @@ export async function getServerSideProps(context) {
       const user = await User.findOne({ "email": session.user.email });
       if (user) {
         const leaguedData = await Leagues.find();
-        const channelData = await Channel.find();
+        const channelData = user.userType !="premium" ? await Channel.find().select('-liveStreamLink') :  await Channel.find();
         const gameData = await Game.find().populate('teamOne teamTwo channel league');;
         const teamData = await Team.find();
           return {
