@@ -65,7 +65,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       transition={Slide}
     />
     
-    {loader && <Loader/>}
+
 
     <Component {...pageProps} />
     </SessionProvider>
