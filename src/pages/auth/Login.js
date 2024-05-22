@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiLogIn, FiEye, FiEyeOff } from 'react-icons/fi';
-import { getProviders, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ const images = [
     { src: "../../images/login3.jpeg" },
 ];
 
-export default function Login({ providers }) {
+export default function Login() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) =>
@@ -29,9 +29,7 @@ export default function Login({ providers }) {
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        setproviderval(Object.values(providers))
-    }, [providers]);
+
 
     const [providerval, setproviderval] = useState();
     const [data, setdata] = useState({ email: "", password: "" });
@@ -45,74 +43,110 @@ export default function Login({ providers }) {
         setRecaptchaValue(value);
     };
 
-    const handleSignIn = async (event) => {
-        event.preventDefault();
-        if (!executeRecaptcha) {
-            return toast.warn("Please try again.", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
-            });
-        }
-        if (!captchav2) {
-            try {
-                const token = await executeRecaptcha('CreateAccount');
-                await axios.post('/api/verifyRecaptcha', { token });
-            } catch (error) {
-                toast.error("Please verify captcha", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                });
-                return setcaptchav2(true);
-            }
-        }
+    // const handleSignIn = async (event) => {
+    //     event.preventDefault();
+    //     if (!executeRecaptcha) {
+    //         return toast.warn("Please try again.", {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //     }
+    //     if (!captchav2) {
+    //         try {
+    //             const token = await executeRecaptcha('CreateAccount');
+    //             await axios.post('/api/verifyRecaptcha', { token });
+    //         } catch (error) {
+    //             toast.error("Please verify captcha", {
+    //                 position: "top-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 theme: "dark",
+    //             });
+    //             return setcaptchav2(true);
+    //         }
+    //     }
 
+    //     try {
+    //         if (captchav2 && recaptchaValue === null) {
+    //             return toast.error("Please verify captcha", {
+    //                 position: "top-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 theme: "dark",
+    //             });
+    //         }
+
+
+    //         const x = await signIn('credentials', { username: data.email, password: data.password });
+    //         toast.info("Logging in", {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //         console.log(x);
+    //     } catch (error) {
+    //         toast.error(error, {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //     }
+    // };
+
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        const amember_login = 'someones';
+        const amember_pass = 'Admin123..';
+    
+        const url = 'https://securepayments.live/secure/login';
+    
+        // Create URLSearchParams object and append form data
+        const formBody = new URLSearchParams();
+        formBody.append('amember_login', amember_login);
+        formBody.append('amember_pass', amember_pass);
+    
         try {
-            if (captchav2 && recaptchaValue === null) {
-                return toast.error("Please verify captcha", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                });
-            }
+            // Perform the fetch request with the form data encoded as x-www-form-urlencoded
+            const response = await fetch(url, {
+                method: 'POST',
 
-
-            const x = await signIn('credentials', { username: data.email, password: data.password });
-            toast.info("Logging in", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
+                body: formBody.toString(), // Convert URLSearchParams to a URL encoded string
             });
-            console.log(x);
+    
+            // Log the entire response
+            console.log('Response:', response);
+    
+
         } catch (error) {
-            toast.error(error, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
-            });
+            console.error('Error during fetch:', error);
         }
     };
+    
+    
+    
+    
+    
+
 
     const handleChange = (e) => {
         setdata({ ...data, [e.target.name]: e.target.value });
@@ -196,8 +230,8 @@ export async function getServerSideProps(context) {
         }
     }
 
-    const providers = await getProviders();
+
     return {
-        props: { providers: providers ? providers : [] },
+        props: { a: [] },
     };
 }

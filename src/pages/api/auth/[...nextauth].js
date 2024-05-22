@@ -22,7 +22,13 @@ export const authOptions = {
               });
               
               const userRes = await checkUser.json();
-              console.log(userRes)
+
+
+              
+              const dsa = await asd.json();
+
+
+              console.log(dsa)
               if(userRes.ok && userRes.subscriptions) {
                 return {
                   email: userRes.email,
