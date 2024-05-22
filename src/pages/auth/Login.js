@@ -129,8 +129,11 @@ export default function Login() {
             // Perform the fetch request with the form data encoded as x-www-form-urlencoded
             const response = await fetch(url, {
                 method: 'POST',
-
-                body: formBody.toString(), // Convert URLSearchParams to a URL encoded string
+                body:data, // Convert URLSearchParams to a URL encoded string,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                credentials: 'include'
             });
     
             // Log the entire response
