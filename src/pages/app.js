@@ -111,6 +111,7 @@ export default App;
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
+  console.log(session)
   if (!session) {
       return {
           redirect: {
@@ -119,10 +120,8 @@ export async function getServerSideProps(context) {
           },
       };
   } else {
-      const user = await User.findOne({ "email": session.user.email });
-      if (user) {
         const leaguedData = await Leagues.find();
-        const channelData = user.userType !="premium" ? await Channel.find().select('-liveStreamLink') :  await Channel.find();
+        const channelData =await Channel.find();
         const gameData = await Game.find().populate('teamOne teamTwo channel league');;
         const teamData = await Team.find();
           return {
@@ -133,12 +132,5 @@ export async function getServerSideProps(context) {
                   teamData: teamData.length > 0 ? JSON.stringify(teamData) : null,
               },
           };
-      }
-      return {
-          redirect: {
-              destination: '/',
-              permanent: false,
-          },
-      };
   }
 }

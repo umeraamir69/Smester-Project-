@@ -6,22 +6,16 @@ import Recaptchav2 from '../universal/Recaptchav2';
 import Loader from '../universal/Loader';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { signIn } from 'next-auth/react';
 import axios from 'axios';
 import HomeNavbar from '../HomeNavbar';
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const CreateAccount = (props) => {
-  const [data, setdata] = useState({name :"", email:"" , password:"" });
+  const [data, setdata] = useState({Fname :"", Lname : "" , email:"" , password:"" , username :""});
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [captchav2, setcaptchav2] = useState(false)
   const [loader, setloader] = useState(false)
-  const [providerval, setproviderval] = useState()
-  const [showPassword, setShowPassword] = useState(false); // State to track whether to show password
-
-  useEffect(() => {
-    setproviderval(Object.values(props.providers))
-  }, [props])
+  const [showPassword, setShowPassword] = useState(false); 
 
   const { executeRecaptcha } = useGoogleReCaptcha()
 
@@ -128,17 +122,27 @@ const CreateAccount = (props) => {
           <form onSubmit={handleSubmit} className="px-4 py-4 lg:w-96 bg-blak my-5 rounded-xl ">
             <h2 className="mb-2 text-3xl font-bold text-white">Sign Up</h2>
 
-            <div onClick={() => signIn(providerval[0].id)} className=" cursor-pointer  px-4 py-2 text-white rounded-md flex gap-2 bg-[#252525]  hover:shadow transition duration-150">
-              <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
-              <span>Signup with Google</span>
-            </div>
+
 
             <hr className='mt-5'/>
 
-            <p className="mb-1 font-medium text-white mt-10">Full Name</p>
+            <p className="mb-1 font-medium text-white mt-10">Fiorst Name</p>
             <div className="mb-4 flex flex-col">
               <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
-                <input minLength={4} required type="text" id="name"  name="name" value={data.name} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+                <input minLength={4} required type="text" id="Fname"  name="Fname" value={data.Fname} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+              </div>
+            </div>
+            <p className="mb-1 font-medium text-white mt-10">loast Name</p>
+            <div className="mb-4 flex flex-col">
+              <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
+                <input minLength={4} required type="text" id="Lname"  name="Lname" value={data.Lname} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+              </div>
+            </div>
+
+            <p className="mb-1 font-medium text-white mt-10">userName</p>
+            <div className="mb-4 flex flex-col">
+              <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
+                <input minLength={4} required type="text" id="username"  name="username" value={data.username} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
               </div>
             </div>
 
