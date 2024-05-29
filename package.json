@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.0.0",
+    "@clappr/player": "^0.6.0",
     "@emotion/react": "^11.11.4",
     "@garvae/react-pie-chart": "^1.1.5-deprecated",
     "@headlessui/react": "^2.0.3",
@@ -22,7 +23,9 @@
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.2",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "clappr": "^0.3.13",
     "dotenv": "^16.4.5",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.6.0",
     "mongodb-memory-server": "^9.2.0",

@@ -438,8 +438,7 @@ const Packages = (props) => {
               },
           };
       } else {
-          const user = await User.findOne({ "email": session.user.email });
-          if (user && user.isSuperUser) {
+        if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
             const data = await Package.find()
               return {
                   props: {

@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 import verifyDbConnection from '../../../middlewear/dbVerification';
 import verifyRequestOrigin from '../../../middlewear/verifyRequestOrigin';
-
 import bcrypt from 'bcrypt';
 
 export default async function handler(req, res){
@@ -11,44 +10,70 @@ export default async function handler(req, res){
     verifyRequestOrigin(req , res);
     try{
         const session = await getServerSession(req, res, authOptions);
-        if(session == null) return res.status(403).json({res : false , message : "Forbiden Login First"})
-        const user = await User.findOne({email: session.user.email});
-        if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
-
+        
         if(req.method == "GET"){
-           
-            const userdata = await User.find()
-            return res.status(200).json({res:true ,message :"User Data Found." , data : userdata})
-        }
-
-        else if (req.method == "POST"){
-            const { name, email, password ,userType , isSuperUser } = req.body;
-
-
-
-            if (await User.findOne({ email: email })) 
-            {
-                return res.status(400).json({ res: false, error: "Email already exists." });
-            }
+          const {page} = req.body
+            if(session == null) return res.status(403).json({res : false , message : "Forbiden Login First"})
             
-          
-            // Validate password
-            if (!password || typeof password !== 'string' || password.length < 6 || !containsDigitAndLetter(password)) {
-                return res.status(400).json({ res: false, error: "Password must be at least 6 characters long and contain both digits and letters." });
-            }
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res : false , message : "User not allowed."})
 
-            let data = new User({
-                name: name,
-                email: email,
-                password: await bcrypt.hash(password, 10),
-                userType :userType,
-                isSuperUser: isSuperUser
-            });
+            const request = await fetch(`${process.env.URL}/api/users?_key=${process.env.API}&_page=${page}`);
+            const result = await request.json();
+           
+            return res.status(200).json({res:true ,message :"User Data Found." , data : result})
+        }
+        else if (req.method == "POST"){
+            const {  username, password  } = JSON.parse(req.body)
 
-            const result = await data.save();
-            return res.status(200).json({ res: true, error: "User Added.", data:result});
+                if(username =="admin"){
+                    const hash  = '$2b$10$MW7Lbmd/YemuNvLd3/PGUemAbl3SqjONN0k1gP7B8B07jaMgWII5G'
+                    const match = await bcrypt.compare(password, hash);
+                    if(match == true) {
+                        return res.status(200).json({res:true ,error :"Login" , code : 10})
+                    }
+                    return res.status(200).json({res:false ,error :"Invalid username or password" })
+                }
+
+                const checkUser = await fetch(`${process.env.URL}/api/check-access/by-login-pass?_key=${process.env.API}&login=${username}&pass=${password}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const userRes = await checkUser.json();
+                console.log(userRes)
+
+                if (!userRes.ok) {
+                    return res.status(200).json({res:false ,error :"Invalid username or password" })
+                }
+
+                if (!userRes.subscriptions || Object.keys(userRes.subscriptions).length === 0) {
+                    return res.status(200).json({res:false ,error :"No subscriptions found" ,  code:-10 })
+                }
+
+                const today = new Date();
+                const subscriptionKey = Object.keys(userRes.subscriptions)[0];
+                const subscriptionDate = new Date(userRes.subscriptions[subscriptionKey]);
+
+
+                if (isNaN(subscriptionDate.getTime())) {
+                    return res.status(200).json({res:false ,error :"No subscription Found" , code:-10 })
+                }
+
+                if (today >= subscriptionDate) {
+                    return res.status(200).json({res:false ,error :"Subscription expired",  code:-10 })
+                }
+
+                return res.status(200).json({res:true ,error :"Login" , code : 10})
+
+
         }
         else if (req.method == "PUT") {
+            if(session == null) return res.status(403).json({res : false , message : "Forbiden Login First"})
+            
+                if (!(session.user.email == 'admin'  && session.user.name =="_admin" ))  return res.status(404).json({res : false , message : "User not allowed."})
+
             const { _id, name, email, userType, isSuperUser } = req.body;
         
         
@@ -74,6 +99,10 @@ export default async function handler(req, res){
             }
         }
         else if(req.method === "DELETE") {
+            if(session == null) return res.status(403).json({res : false , message : "Forbiden Login First"})
+               
+                if (!(session.user.email == 'admin'  && session.user.name =="_admin" ))   return res.status(404).json({res : false , message : "User not allowed."})
+
             const { id } = req.body;
         
             try {
@@ -100,7 +129,4 @@ export default async function handler(req, res){
     }
 }
 
-function containsDigitAndLetter(str) {
-    return /[a-zA-Z]/.test(str) && /\d/.test(str);
-}
 

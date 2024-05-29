@@ -2,7 +2,6 @@ import verifyRequestOrigin from '../../../middlewear/verifyRequestOrigin';
 import verifyDbConnection from '../../../middlewear/dbVerification';
 import Game from '../../../models/Game';
 import { getServerSession } from 'next-auth';
-import User from '../../../models/User';
 import { authOptions } from './auth/[...nextauth]';
 
 export default async function handler(req, res){
@@ -11,7 +10,7 @@ export default async function handler(req, res){
     try{
         const session = await getServerSession(req, res, authOptions);
         if(session == null) return res.status(403).json({res: false, message: "Forbidden, Login First"});
-        const user = await User.findOne({email: session.user.email});
+     
         
         if(req.method === "GET"){
             if(req.body.id){
@@ -27,7 +26,7 @@ export default async function handler(req, res){
             }
         }
         else if(req.method === "POST"){
-            if(!user.isSuperUser) return res.status(404).json({res: false, message: "User not allowed."});
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") )return res.status(404).json({res: false, message: "User not allowed."});
             const { teamOne, teamTwo, channel, league, additionalLinks, matchDate, venue, scoreTeamOne, scoreTeamTwo, channelLabel, highlightsURL, primaryHeaderLink, otherHeaderLink, isLive } = req.body;
 
             let data = new Game({
@@ -51,7 +50,7 @@ export default async function handler(req, res){
             return res.status(201).json({status: true, message: "Game Added Successfully", data: result});
         } 
         else if(req.method === "PUT"){
-            if(!user.isSuperUser) return res.status(404).json({res: false, message: "User not allowed."});
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res: false, message: "User not allowed."});
             const { _id, teamOne, teamTwo, channel, league, additionalLinks, matchDate, venue, scoreTeamOne, scoreTeamTwo, channelLabel, highlightsURL, primaryHeaderLink, otherHeaderLink, isLive } = req.body;
 
             let updatedFields = {};
@@ -82,7 +81,7 @@ export default async function handler(req, res){
                 return res.status(500).json({status: false, error: "An error occurred."});
             }
         } else if(req.method === "DELETE"){
-            if(!user.isSuperUser) return res.status(404).json({res: false, message: "User not allowed."});
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res: false, message: "User not allowed."});
             const { id } = req.body;
 
             try {

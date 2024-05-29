@@ -6,22 +6,20 @@ import Recaptchav2 from '../universal/Recaptchav2';
 import Loader from '../universal/Loader';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { signIn } from 'next-auth/react';
 import axios from 'axios';
 import HomeNavbar from '../HomeNavbar';
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const CreateAccount = (props) => {
-  const [data, setdata] = useState({name :"", email:"" , password:"" });
+  const [data, setdata] = useState({Fname :"", Lname : "" , email:"" , password:"" , username :""});
   const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [captchav2, setcaptchav2] = useState(false)
   const [loader, setloader] = useState(false)
-  const [providerval, setproviderval] = useState()
-  const [showPassword, setShowPassword] = useState(false); // State to track whether to show password
-
-  useEffect(() => {
-    setproviderval(Object.values(props.providers))
-  }, [props])
+  const [showPassword, setShowPassword] = useState(false); 
+  const [formData, setFormData] = useState({
+    amember_login: '',
+    amember_pass: ''
+  });
 
   const { executeRecaptcha } = useGoogleReCaptcha()
 
@@ -31,11 +29,17 @@ const CreateAccount = (props) => {
 
   const handleOnChange = (event) => {
     setdata({ ...data, [event.target.name]: event.target.value })
+
+    if(event.target.name == "password"){
+    setFormData({ ...formData, "amember_pass": event.target.value })
+    }
+    else if( event.target.name ==  "username"){
+    setFormData({ ...formData, "amember_login": event.target.value })
+    }
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!executeRecaptcha) {
       setloader(false)
       return toast.warn("Captcha Please Try again.", {
@@ -91,7 +95,7 @@ const CreateAccount = (props) => {
         theme: "dark",
       });
     }
-
+    const formElement = await document.getElementById('loginForm');
     const request = await fetch('/api/createAccount', {
       method: 'POST',
       headers: {
@@ -99,12 +103,32 @@ const CreateAccount = (props) => {
       },
       body: JSON.stringify(data)
     })
+      const resuelt = await request.json();
+      if(resuelt.status){
 
-    //   if (!response.ok) {
-    //     throw new Error('Network response was not ok');
-    // }
+         toast.success(resuelt.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
 
-    //   const resuelt = await request.json();
+        return formElement.submit();
+      }
+      else{
+        return toast.error(resuelt.error, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+      }
   }
 
   const isPasswordValid = (password) => {
@@ -128,17 +152,27 @@ const CreateAccount = (props) => {
           <form onSubmit={handleSubmit} className="px-4 py-4 lg:w-96 bg-blak my-5 rounded-xl ">
             <h2 className="mb-2 text-3xl font-bold text-white">Sign Up</h2>
 
-            <div onClick={() => signIn(providerval[0].id)} className=" cursor-pointer  px-4 py-2 text-white rounded-md flex gap-2 bg-[#252525]  hover:shadow transition duration-150">
-              <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
-              <span>Signup with Google</span>
-            </div>
+
 
             <hr className='mt-5'/>
 
-            <p className="mb-1 font-medium text-white mt-10">Full Name</p>
+            <p className="mb-1 font-medium text-white mt-10">Fiorst Name</p>
             <div className="mb-4 flex flex-col">
               <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
-                <input minLength={4} required type="text" id="name"  name="name" value={data.name} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+                <input minLength={4} required type="text" id="Fname"  name="Fname" value={data.Fname} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+              </div>
+            </div>
+            <p className="mb-1 font-medium text-white mt-10">loast Name</p>
+            <div className="mb-4 flex flex-col">
+              <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
+                <input minLength={4} required type="text" id="Lname"  name="Lname" value={data.Lname} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
+              </div>
+            </div>
+
+            <p className="mb-1 font-medium text-white mt-10">userName</p>
+            <div className="mb-4 flex flex-col">
+              <div className="focus-within:border-blue-600 relativeflex overflow-hidden rounded-md border-2 transition sm:w-80 lg:w-full">
+                <input minLength={4} required type="text" id="username"  name="username" value={data.username} onChange={handleOnChange}  className="w-full border-gray-300 bg-white px-4 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="Enter your email" />
               </div>
             </div>
 
@@ -175,6 +209,14 @@ const CreateAccount = (props) => {
           </form>
         </div>
       </section>
+
+
+      <form action="https://securepayments.live/secure/login" method="post" className="hidden" id="loginForm">
+        <input type="text" required placeholder="Email" name="amember_login" id="amember_login"  value={formData.amember_login} />
+        <input type="password" required placeholder="amember_pass" name="amember_pass" id="amember_pass"  value={formData.amember_pass} />
+        <button type="submit">login</button>
+    </form>
+
     </div>
   )
 }

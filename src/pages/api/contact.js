@@ -1,6 +1,5 @@
 import verifyRequestOrigin from '../../../middlewear/verifyRequestOrigin';
 import verifyDbConnection from '../../../middlewear/dbVerification';
-import User from '../../../models/User';
 import Contact from '../../../models/Contact';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
@@ -12,11 +11,10 @@ export default async function handler(req, res){
 
         const session = await getServerSession(req, res, authOptions);
         if(session == null) return res.status(403).json({res : false , message : "Forbiden Login First"})
-        const user = await User.findOne({email: session.user.email});
 
 
     if(req.method == "GET"){
-        if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
+        if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res : false , message : "User not allowed."})
 
         const data = await Contact.find();
         return res.status(200).json({status:true ,message :"Contacts Found." , data : data})
@@ -35,7 +33,7 @@ export default async function handler(req, res){
     } 
     else if (req.method === "PUT") {
 
-        if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."})
+        if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res : false , message : "User not allowed."})
         
         const {_id, name,email , message ,comments , solved} = req.body;
     
@@ -59,7 +57,7 @@ export default async function handler(req, res){
         }
     } 
     else if (req.method === "DELETE") {
-        if(!user.isSuperUser) return res.status(404).json({status : false , message : "User not allowed."})
+        if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({status : false , message : "User not allowed."})
         const { id } = req.body;
     
         try {

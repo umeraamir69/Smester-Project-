@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import Navbar from '../../../components/dashboard/Navbar'
-import User from '../../../models/User'
 import Channel from '../../../models/Channel'
 import Contact from '../../../models/Contact'
 import Game from '../../../models/Game'
@@ -9,7 +8,6 @@ import Leagues from '../../../models/Leagues'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { GiTeamIdea } from "react-icons/gi";
 import { getServerSession } from 'next-auth'
-import Package from '../../../models/Package'
 import Link from 'next/link'
 import Team from '../../../models/Team'
 import { FaUserClock } from "react-icons/fa6";
@@ -47,25 +45,34 @@ const Index = (props) => {
       <div className='w-72'>
         <PieChart 
           data={[
-            { type: 'Free Channels', value: props.freeChanel, color: '#62B170' },
+            { type: 'Total Channels', value: props.chanelLength, color: '#62B170' },
             { type: 'Live Channels', value: props.liveChanel, color: '#4BA2DA' },
           ]}
         />
       </div>
     }
 
-   
-
-   
-
     {props &&
       <div className='w-72'>
         <PieChart 
           data={[
-            { type: 'Premium User', value: props.premiumUser, color: '#E97D30' },
-            { type: 'Standard User', value: props.userLength - props.premiumUser, color: '#E97D30' },
-            { type: 'Super User', value: props.superUser, color: '#62B170' },
-            { type: 'Google User', value: props.googleUser, color: '#62B170' },
+            { type: 'Total Packages', value: props.packageLength, color: '#62B170' },
+            { type: 'Disabled Packages', value: props.disabledPackages, color: '#4BA2DA' },
+            { type: 'Archived Packages', value: props.archivedPackages, color: '#E97D30' },
+            { type: 'Active Packages', value: props.packageLength-(props.archivedPackages +props.disabledPackages) , color: '#0f7D30' },
+          ]}
+        />
+      </div>
+    }
+  
+    {props &&
+      <div className='w-72'>
+        <PieChart 
+          data={[
+            { type: 'Active User', value: props.activeUser, color: '#E97D30' },
+            { type: 'Expired User', value: props.expiredUser, color: '#E81239' },
+            { type: 'Pending User', value: props.pendingUser, color: '#62B170' },
+           
           ]}
         />
       </div>
@@ -171,33 +178,77 @@ export async function getServerSideProps(context) {
           },
       };
   } else {
-      const user = await User.findOne({ "email": session.user.email });
-      if (user && user.isSuperUser) {
+      if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
         const channelData = await Channel.find();
         const contactData = await Contact.find();
         const gameData = await Game.find();
-        const packagesData = await Package.find();
-        const userData = await User.find().select('-password');;
         const leaguedData = await Leagues.length;
         const teamData = await Team.find.length;
+        
+
+
+        const packagesRequest = await fetch(`${process.env.URL}/api/products?_key=${process.env.API}`,{
+          method : 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+        },
+        })
+        const packagesData = await packagesRequest.json();
+
+
+
+        const request = await fetch(`${process.env.URL}/api/users?_key=${process.env.API}`,{
+          method : 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+        },
+        })
+
+        const userData = await request.json()
+
+        const filter = (data , key) => {
+          const filteredPackages = Object.values(data).filter(item => {
+              return item.status? item.status == key : 0 ;
+          });
+          return filteredPackages;
+      }
+        const filteris_disabled = () => {
+          const filteredPackages = Object.values(packagesData).filter(item => {
+              return  item.is_disabled == 1 ;
+          });
+          return filteredPackages;
+        }
+        const filteris_archived = () => {
+          const filteredPackages = Object.values(packagesData).filter(item => {
+              return  item.is_archived == 1 ;
+          });
+          return filteredPackages;
+        }
+        
           return {
               props: {
                   chanelLength: channelData.length,
-                  freeChanel : channelData.filter(channel => channel.isAllowFree == true).length,
                   liveChanel : channelData.filter(channel => channel.isLive == true).length,
+
+
                   queryLength : contactData.length,
                   solvedquery : contactData.filter(data => data.solved == true).length,
+
+
                   gameLength : gameData.length,
                   liveGame : gameData.filter(data => data.isLive == true).length,
+
                   leagueLength : leaguedData,
                   teamLength : teamData,
-                  packageLength : packagesData.length,
-                  activePackage : packagesData.filter(data => data.active == true).length,
-                  userLength : userData.length,
-                  premiumUser : userData.filter(data => data.userType == "premium").length,
-                  superUser : userData.filter(data => data.isSuperUser == true).length,
-                  googleUser : userData.filter(data => data.password ).length,
-                  userTbl : JSON.stringify(userData),
+
+                  packageLength : packagesData._total,
+                  disabledPackages : filteris_disabled().length,
+                  archivedPackages : filteris_archived().length,
+
+                  userLength : userData._total,
+                  pendingUser : filter(userData , 0).length,
+                  activeUser : filter(userData , 1).length,
+                  expiredUser : filter(userData , 2).length,
               },
           };
       }

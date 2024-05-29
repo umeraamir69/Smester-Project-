@@ -13,10 +13,10 @@ const Channel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isAllowFree: {
-    type: Boolean,
-    default: false
-  },
+  // isAllowFree: {
+  //   type: Boolean,
+  //   default: false
+  // },
   otherHeaderLink : {
     type: 'String',
   },

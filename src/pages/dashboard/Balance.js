@@ -305,8 +305,8 @@ export async function getServerSideProps(context) {
       },
     };
   } else {
-    const user = await User.findOne({ email: session.user.email });
-    if (user && user.isSuperUser) {
+    
+    if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
       const balance = await stripe.balance.retrieve();
       return {
         props: {

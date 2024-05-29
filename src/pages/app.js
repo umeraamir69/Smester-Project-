@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import Timeline from "../../components/Timeline";
 import Layout from "../../components/Layout";
 import { useEffect, useState } from "react";
-import User from "../../models/User";
 import Leagues from "../../models/Leagues";
 import Team from "../../models/Team";
 import Channel from "../../models/Channel";
@@ -10,6 +9,7 @@ import Game from "../../models/Game";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GlobalContext } from '../../context/index';
+import connectToDatabase from '../../middlewear/connectDb';
 
 const App = (props)=> {
   const { isSidebarOpen } = useContext(GlobalContext);
@@ -110,6 +110,7 @@ const App = (props)=> {
 export default App;
 
 export async function getServerSideProps(context) {
+  connectToDatabase()
   const session = await getServerSession(context.req, context.res, authOptions);
   if (!session) {
       return {
@@ -119,10 +120,8 @@ export async function getServerSideProps(context) {
           },
       };
   } else {
-      const user = await User.findOne({ "email": session.user.email });
-      if (user) {
         const leaguedData = await Leagues.find();
-        const channelData = user.userType !="premium" ? await Channel.find().select('-liveStreamLink') :  await Channel.find();
+        const channelData =await Channel.find();
         const gameData = await Game.find().populate('teamOne teamTwo channel league');;
         const teamData = await Team.find();
           return {
@@ -133,12 +132,5 @@ export async function getServerSideProps(context) {
                   teamData: teamData.length > 0 ? JSON.stringify(teamData) : null,
               },
           };
-      }
-      return {
-          redirect: {
-              destination: '/',
-              permanent: false,
-          },
-      };
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import Plans from '../../components/Plans'
-import Package from '../../models/Package'
+
 
 const membership = (props) => {
   return (
@@ -17,8 +17,11 @@ export default membership
 
 export async function getServerSideProps(context) {
     
-    const data = await Package.find()
+    const data = await fetch(`${process.env.URL}/api/products?_key=${process.env.API}&_format=json&_nested[]=billing-plans` , {
+      method : 'GET'
+    })
+    const res = await data.json()
     return {
-      props: { packages: JSON.stringify(data) },
+      props: { packages: JSON.stringify(res) },
     };
   }

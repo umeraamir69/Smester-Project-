@@ -468,8 +468,7 @@ export async function getServerSideProps(context) {
             },
         };
     } else {
-        const user = await User.findOne({ "email": session.user.email });
-        if (user && user.isSuperUser) {
+        if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
             const games = await Game.find().populate('teamOne teamTwo channel league');
             const teams  = await Team.find();
             const channel  = await Channel.find();

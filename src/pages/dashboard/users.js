@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
 import Loader from '../../../components/universal/Loader';
+import connectToDatabase from '../../../middlewear/connectDb';
 
 
 const Users = (props) => {
@@ -26,8 +27,8 @@ const Users = (props) => {
     useEffect(() => {
       if(props.userData) 
         setdata(JSON.parse(props.userData))
-      setFilteredData(JSON.parse(props.userData));
-      setLoading(false);
+        setFilteredData(JSON.parse(props.userData));
+        setLoading(false);
     }, []);
 
 
@@ -450,6 +451,7 @@ const Users = (props) => {
 
   export async function getServerSideProps(context) {
       const session = await getServerSession(context.req, context.res, authOptions);
+
       if (!session) {
           return {
               redirect: {
@@ -457,22 +459,28 @@ const Users = (props) => {
                   permanent: false,
               },
           };
-      } else {
-          const user = await User.findOne({ "email": session.user.email });
-          if (user && user.isSuperUser) {
-            const userData = await User.find().select('-password');
-              return {
-                  props: {
-                      userData: JSON.stringify(userData)
-                  },
-              };
-          }
+      } else {  
+        if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
+          const request = await fetch(`${process.env.URL}/api/users?_key=${process.env.API}`,{
+            method : 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+          },
+          })
+  
+          const userData = await request.json()
+
           return {
-              redirect: {
-                  destination: '/',
-                  permanent: false,
-              },
-          };
+            props: {userData: JSON.stringify(userData)}
+          }
+        }
+        return {
+          redirect: {
+              destination: '/auth/Login',
+              permanent: false,
+          },
+      };
+
       }
   }
 

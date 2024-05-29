@@ -5,9 +5,7 @@ import LoadingBar from 'react-top-loading-bar'
 import { useRouter } from "next/router";
 import { useState , useEffect } from "react";
 import { SessionProvider } from "next-auth/react"
-import Navbar from "../../components/Navbar";
 import { Slide } from 'react-toastify';
-import Loader from "../../components/universal/Loader";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3"
 import GlobalState from "../../context";
 

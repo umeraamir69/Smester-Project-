@@ -1,10 +1,8 @@
 import verifyRequestOrigin from '../../../middlewear/verifyRequestOrigin';
 import verifyDbConnection from '../../../middlewear/dbVerification';
-import User from '../../../models/User';
 import Team from '../../../models/Team';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
-import Leagues from '../../../models/Leagues';
 
 export default async function handler(req, res){
     verifyDbConnection(req , res);
@@ -27,8 +25,8 @@ export default async function handler(req, res){
             }
         }
         else if(req.method == "POST"){
-            const user = await User.findOne({email: session.user.email});
-            if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."});
+
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") )return res.status(404).json({res : false , message : "User not allowed."});
 
             const { name, logoLink, league } = req.body;
 
@@ -42,8 +40,8 @@ export default async function handler(req, res){
             return res.status(201).json({ status: true, message: "Team Added Successfully" , data : result });
         } 
         else if (req.method === "PUT") {
-            const user = await User.findOne({email: session.user.email});
-            if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."});
+
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res : false , message : "User not allowed."});
 
             const { _id, name, logoLink, league } = req.body;
         
@@ -66,8 +64,7 @@ export default async function handler(req, res){
             }
         } 
         else if (req.method === "DELETE") {
-            const user = await User.findOne({email: session.user.email});
-            if(!user.isSuperUser) return res.status(404).json({res : false , message : "User not allowed."});
+            if(!(session.user.email == 'admin'  && session.user.name =="_admin") ) return res.status(404).json({res : false , message : "User not allowed."});
 
             const { id } = req.body;
         
