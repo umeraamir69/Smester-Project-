@@ -50,7 +50,7 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar({chanelData , leagueData}) {
+export default function Sidebar({chanelData , leagueData , setfilter , filter}) {
   const { isSidebarOpen, toggleSidebar } = useContext(GlobalContext);
   const pathName = usePathname();
   const [isSettingsOpen, setIsSettingOpen] = useState(false);
@@ -148,7 +148,7 @@ export default function Sidebar({chanelData , leagueData}) {
                     {/* Additional content for Settings */}
                     <div className="flex flex-col gap-y-4 pl-5 pt-3">
                       {leagueData && leagueData.map((item) => (
-                        <div className="flex gap-x-5 text-white" key={item._id}>
+                        <div onClick={()=>{setfilter(item.name)}} className="flex gap-x-5 text-white hover:cursor-pointer" key={item._id}>
                           <img
                             src={item.logoLink}
                             alt=""

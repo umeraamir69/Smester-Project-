@@ -3,13 +3,13 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { GlobalContext } from '../context';
 
-const Layout = ({ children , leagueData , chanelData}) => {
+const Layout = ({ children , leagueData , chanelData , filter , setfilter}) => {
   const { isSidebarOpen } = useContext(GlobalContext);
 
   return (
     <div className='flex h-screen overflow-x-hidden bg-[#191C24]'>
       
-      <Sidebar leagueData={leagueData} chanelData={chanelData}/>
+      <Sidebar leagueData={leagueData} chanelData={chanelData} filter={filter} setfilter={setfilter}/>
       <div className={`relative flex flex-1 flex-col overflow-y-auto ${isSidebarOpen ? 'lg:ml-56' : 'ml-0'}`}>
         <Navbar/>
         <main className=''>

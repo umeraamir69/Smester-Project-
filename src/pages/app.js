@@ -17,6 +17,7 @@ const App = (props)=> {
   const [teamData, setteamData] = useState();
   const [gameData, setgameData] = useState();
   const [chanelData, setchanelData] = useState();
+  const [filter, setfilter] = useState();
 
   useEffect(() => {
     if(props.leaguedData != null){
@@ -35,7 +36,7 @@ const App = (props)=> {
 
 
   return (
-    <Layout leagueData={leagueData} chanelData={chanelData}>
+    <Layout leagueData={leagueData} chanelData={chanelData} filter={filter} setfilter={setfilter}>
     <div className={`sm:flex justify-between overflow-x-hidden ${isSidebarOpen ? 'lg:pl-10' : ''}`}>
       
 
