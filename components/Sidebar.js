@@ -147,6 +147,12 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                   <div className="py-2 text-sm ">
                     {/* Additional content for Settings */}
                     <div className="flex flex-col gap-y-4 pl-5 pt-3">
+                    <div  className="flex gap-x-5 text-white hover:cursor-pointer" onClick={()=>{setfilter()}}>
+                          
+                          <div className="flex flex-col justify-center">
+                          <li>All Leagues</li>
+                          </div>
+                        </div>
                       {leagueData && leagueData.map((item) => (
                         <div onClick={()=>{setfilter(item.name)}} className="flex gap-x-5 text-white hover:cursor-pointer" key={item._id}>
                           <img
@@ -174,6 +180,7 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
               </div>
               <h1 className="px-4 text-xl font-semi-bold pt-3 pb-3">Channels</h1>
               <div className="flex flex-col gap-y-5 pl-5 pt-3">
+                
                       {chanelData&& chanelData.map((item) => (
                         <div className="flex gap-x-5 text-white" key={item._id}>
                           <div className="flex flex-col justify-center">
@@ -183,10 +190,8 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                             className="w-8 h-8 rounded-full"
                           />
                           </div>
-                         
                           <div className="flex flex-col justify-center">
                           <li>{item.name}</li>
-                          <li className="text-[12px]">{item.isAllowFree ? "Free" : "Only for Premium Members"}</li>
                           </div>
                           
                         </div>
