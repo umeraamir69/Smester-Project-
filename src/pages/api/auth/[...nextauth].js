@@ -28,10 +28,8 @@ export const authOptions = {
                             username: "admin",
                             name: "_admin",
                         };
-                    }
-                   
+                    }  
                 }
-
                 try {
                     const checkUser = await fetch(`${process.env.URL}/api/check-access/by-login-pass?_key=${process.env.API}&login=${username}&pass=${password}`, {
                         method: 'GET',
@@ -39,14 +37,12 @@ export const authOptions = {
                             'Content-Type': 'application/json',
                         },
                     });
-
                     const userRes = await checkUser.json();
                     return {
                         email: userRes.email,
                         username: username,
                         name: userRes.name_f + " " + userRes.name_l,
                     };
-
                 } catch (error) {
                     console.error('Error authorizing user:', error.message);
                     throw new Error(error.message); // Pass the error message to NextAuth
@@ -81,6 +77,5 @@ export const authOptions = {
         error: '/auth/error'
     }
 };
-
 
 export default NextAuth(authOptions);
