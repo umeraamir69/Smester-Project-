@@ -2,7 +2,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FiLogIn, FiEye, FiEyeOff } from 'react-icons/fi';
+<<<<<<< HEAD
 import { signIn } from 'next-auth/react';
+=======
+import { signIn } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -19,6 +25,7 @@ const images = [
 ];
 
 export default function Login() {
+<<<<<<< HEAD
     const router = useRouter();
     const { error } = router.query;
 
@@ -43,6 +50,8 @@ export default function Login() {
         }
     }
 
+=======
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) =>
@@ -52,6 +61,12 @@ export default function Login() {
         return () => clearInterval(interval);
     }, []);
 
+<<<<<<< HEAD
+=======
+
+
+    const [providerval, setproviderval] = useState();
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
     const [data, setdata] = useState({ email: "", password: "" });
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const [captchav2, setcaptchav2] = useState(false);
@@ -67,38 +82,90 @@ export default function Login() {
         setRecaptchaValue(value);
     };
 
-    const handleSignIn = async (event) => {
-        event.preventDefault();
-        if (!executeRecaptcha) {
-            return toast.warn("Please try again.", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
-            });
-        }
-        if (!captchav2) {
-            try {
-                const token = await executeRecaptcha('CreateAccount');
-                await axios.post('/api/verifyRecaptcha', { token });
-            } catch (error) {
-                toast.error("Please verify captcha", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                });
-                return setcaptchav2(true);
-            }
-        }
+    // const handleSignIn = async (event) => {
+    //     event.preventDefault();
+    //     if (!executeRecaptcha) {
+    //         return toast.warn("Please try again.", {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //     }
+    //     if (!captchav2) {
+    //         try {
+    //             const token = await executeRecaptcha('CreateAccount');
+    //             await axios.post('/api/verifyRecaptcha', { token });
+    //         } catch (error) {
+    //             toast.error("Please verify captcha", {
+    //                 position: "top-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 theme: "dark",
+    //             });
+    //             return setcaptchav2(true);
+    //         }
+    //     }
 
+    //     try {
+    //         if (captchav2 && recaptchaValue === null) {
+    //             return toast.error("Please verify captcha", {
+    //                 position: "top-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 theme: "dark",
+    //             });
+    //         }
+
+
+    //         const x = await signIn('credentials', { username: data.email, password: data.password });
+    //         toast.info("Logging in", {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //         console.log(x);
+    //     } catch (error) {
+    //         toast.error(error, {
+    //             position: "top-right",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             theme: "dark",
+    //         });
+    //     }
+    // };
+
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        const amember_login = 'someones';
+        const amember_pass = 'Admin123..';
+    
+        const url = 'https://securepayments.live/secure/login';
+    
+        // Create URLSearchParams object and append form data
+        const formBody = new URLSearchParams();
+        formBody.append('amember_login', amember_login);
+        formBody.append('amember_pass', amember_pass);
+    
         try {
+<<<<<<< HEAD
             if (captchav2 && recaptchaValue === null) {
                 return toast.error("Please verify captcha", {
                     position: "top-right",
@@ -154,8 +221,32 @@ export default function Login() {
                 draggable: true,
                 theme: "dark",
             });
+=======
+            // Perform the fetch request with the form data encoded as x-www-form-urlencoded
+            const response = await fetch(url, {
+                method: 'POST',
+                body:data, // Convert URLSearchParams to a URL encoded string,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                credentials: 'include'
+            });
+    
+            // Log the entire response
+            console.log('Response:', response);
+    
+
+        } catch (error) {
+            console.error('Error during fetch:', error);
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
         }
     };
+    
+    
+    
+    
+    
+
 
     const handleChange = (e) => {
         setdata({ ...data, [e.target.name]: e.target.value });
@@ -183,6 +274,10 @@ export default function Login() {
                                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                             </h1>
                             <div className="w-full flex-1 mt-8">
+<<<<<<< HEAD
+=======
+              
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
                                 <form onSubmit={handleSignIn} className="mx-auto max-w-xs">
                                     <input
                                         className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -249,7 +344,13 @@ export async function getServerSideProps(context) {
      }
     }
 
+<<<<<<< HEAD
     return {
         props: { a: '' },
+=======
+
+    return {
+        props: { a: [] },
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
     };
 }

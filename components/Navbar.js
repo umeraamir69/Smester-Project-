@@ -45,9 +45,16 @@ export default function Navbar() {
         <button onClick={() =>setdropdown(!dropdown)} type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
           <span className="absolute -inset-1.5"></span>
           <span className="sr-only">Open user menu</span>
+<<<<<<< HEAD
           <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
           <span className="font-medium text-gray-600 dark:text-gray-300 capitalize">{session.user.name ? session.user.name.substring(0,1) : "User"}</span>
       </div>
+=======
+          {session.user.image ? 
+          <img className="h-8 w-8 rounded-full" src={session.user.image} alt=""/> : <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+          <span className="font-medium text-gray-600 dark:text-gray-300">user</span>
+      </div>}
+>>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
         </button>
       </div>
 
