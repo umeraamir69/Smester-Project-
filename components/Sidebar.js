@@ -13,16 +13,7 @@ import { ImProfile } from "react-icons/im";
 import { MdOutlineContactSupport } from "react-icons/md";
 
 
-const LeagueData = [
-  {
-    image: "./images/image1.png",
-    name: "IPL",
-  },
-  {
-    image: "./images/image1.png",
-    name: "BPL",
-  },
-];
+
 const menuItems = [
   {
     id: "Schedule",
@@ -59,11 +50,13 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
   const handleSetting = () => {
     setIsSettingOpen(!isSettingsOpen);
   };
-  const handleLeague = () => {
-    setIsLeagueOpen(!isLeagueOpen);
-  };
+
+
+
 
   return (
+    <>
+
     <aside
       className={`absolute left-0 top-0 z-50 flex h-screen   w-64 flex-col overflow-y-hidden bg-black duration-100  ease-linear
       ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -75,7 +68,7 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
         </Link>
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear text-white">
-        <nav className="mt-5 py-4 px-4 lg:mt-5 lg:px-2">
+        <div className="mt-5 py-4 px-4 lg:mt-5 lg:px-2">
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
               {menuItems.map((menuItem) => (
@@ -97,7 +90,7 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                   className={`group relative cursor-pointer flex items-center gap-2.5 gap-x-6 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark`}
                 >
                   <IoSettingsOutline size={23} />
-                  <p>Settings</p>
+                  <div>Settings</div>
                   {isSettingsOpen ? (
                     <BiChevronUp size={25} />
                   ) : (
@@ -147,12 +140,15 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                   <div className="py-2 text-sm ">
                     {/* Additional content for Settings */}
                     <div className="flex flex-col gap-y-4 pl-5 pt-3">
-                    <div  className="flex gap-x-5 text-white hover:cursor-pointer" onClick={()=>{setfilter()}}>
-                          
+{filter&&  setfilter &&
+
+                    <div  className="flex gap-x-5 text-white hover:cursor-pointer" onClick={() => setfilter("123")}>
                           <div className="flex flex-col justify-center">
                           <li>All Leagues</li>
                           </div>
                         </div>
+}
+
                       {leagueData && leagueData.map((item) => (
                         <div onClick={()=>{setfilter(item.name)}} className="flex gap-x-5 text-white hover:cursor-pointer" key={item._id}>
                           <img
@@ -180,7 +176,7 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
               </div>
               <h1 className="px-4 text-xl font-semi-bold pt-3 pb-3">Channels</h1>
               <div className="flex flex-col gap-y-5 pl-5 pt-3">
-                
+
                       {chanelData&& chanelData.map((item) => (
                         <div className="flex gap-x-5 text-white" key={item._id}>
                           <div className="flex flex-col justify-center">
@@ -199,8 +195,9 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                     </div>
             </ul>
           </div>
-        </nav>
+        </div>
       </div>
     </aside>
+    </>
   );
 }
