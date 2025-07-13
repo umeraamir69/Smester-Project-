@@ -16,13 +16,10 @@ const CreateAccount = (props) => {
   const [captchav2, setcaptchav2] = useState(false)
   const [loader, setloader] = useState(false)
   const [showPassword, setShowPassword] = useState(false); 
-<<<<<<< HEAD
   const [formData, setFormData] = useState({
     amember_login: '',
     amember_pass: ''
   });
-=======
->>>>>>> 4169ec777e04b164c6436658d7136bf0b68586ee
 
   const { executeRecaptcha } = useGoogleReCaptcha()
 

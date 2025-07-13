@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai';
 import 'react-vertical-timeline-component/style.min.css';
+import Link from 'next/link';
 const Timeline = ({ gameData }) => {
   // Sample timeline data
+
+  console.log(gameData)
   const timelineData = [
     {
       time: "12:00 am",
@@ -42,7 +45,7 @@ const Timeline = ({ gameData }) => {
 
       <VerticalTimeline layout="1-column-left" lineColor="white" lineStyle={{ width: '20px' }} >
         {gameData && gameData.map((item, index) => (
-          <div key={index}>
+          <div key={index} >
             <VerticalTimelineElement
               key={index}
               className="vertical-timeline-element--work"
@@ -54,39 +57,75 @@ const Timeline = ({ gameData }) => {
               contentArrowStyle={{ borderRight: "7px solid #1E1E2C" }} // Adjusted height
               style={{ marginBottom: '10px', marginTop: '5px' }} // Adjusted margin for spacing
             >
-              <div 
-              onClick={() => toggleAccordion(index)}>
-              <div className="grid grid-cols-4 sm:grid-cols-10 hover:cursor-pointer "  >
-                <div className='sm:grid sm:col-span-9 sm:grid-cols-6 col-span-3'>
-                <div className='sm:flex flex-col justify-center sm:col-span-3'>
-                  <h3 className="vertical-timeline-element-title text-sm">{item.teamOne.name}  vs  {item.teamTwo.name}</h3>
+              { index === 2 ? (
+                <div>
+                  <div className='grid  md:grid-cols-2'>
+                    <div className='flex flex-col justify-center'>
+                      <div className='space-y-1'>
+                      <h3 className="vertical-timeline-element-title text-sm">{item.teamOne.name}  vs  {item.teamTwo.name}</h3>
+                      <h4 className="vertical-timeline-element-subtitle ">{item.venue}</h4>
+                      <h4 className="vertical-timeline-element-subtitle ">{item.league.name}</h4>
+                      <div className='flex gap-x-4 justify-start'>
+                      {item.channel.map((channel, i) => (
+                        <div key={i} className='flex'>
+                          
+                        <Link href={"/player/" + channel._id}> <p  className=' bg-black text-gray-400 px-6 py-0.5 rounded-full'>{channel.name}</p></Link> 
+                        </div>
+  
+                       
+                      ))}
+                    </div>
+                      </div>
+                    </div>
+                    <div className='flex md:justify-end justify-center'>
+                      <img src="./images/banner.jpg" alt=""  className='w-[400px] h-[200px] rounded-lg'/>
+                    </div>
+                  </div>
+
                 </div>
-                <div className='flex flex-col justify-center'>
-                <h4 className="vertical-timeline-element-subtitle ">{item.venue}</h4>
-                </div>
-                <div className='-mt-4 col-span-2'>
-                <p>{item.matchDate.substring(0, 19).replace('T', ' ')}</p>
-                </div>
+              ) :
+                <div 
+                onClick={() => toggleAccordion(index)} clas>
+                <div className="grid grid-cols-4 sm:grid-cols-10 hover:cursor-pointer "  >
+                  <div className='sm:grid sm:col-span-9 sm:grid-cols-6 col-span-3'>
+                  <div className='sm:flex flex-col justify-center sm:col-span-3'>
+                    <h3 className="vertical-timeline-element-title text-sm">{item.teamOne.name}  vs  {item.teamTwo.name}</h3>
+                  </div>
+                  <div className='flex flex-col justify-center'>
+                  <h4 className="vertical-timeline-element-subtitle ">  {item.league.name}</h4>
+                  </div>
+                  <div className='-mt-4 col-span-2'>
+                  <p>{item.matchDate.substring(0, 19).replace('T', ' ')}</p>
                 
+                  </div>
+                  
+                  </div>
+                  
+                  <div className='sm:flex justify-end hidden'>
+                  <button>
+                    {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
+                  </button>
+                  </div>
+                  <div className='flex justify-end sm:hidden'>
+                  <button>
+                    {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
+                  </button>
+                  </div>
                 </div>
-                
-                <div className='sm:flex justify-end hidden'>
-                <button>
-                  {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
-                </button>
+                {accordionOpen[index] && (
+                    <div className='flex gap-x-4 justify-end'>
+                      {item.channel.map((channel, i) => (
+                        <div key={i} className='flex'>
+                           <Link href={"/player" + channel._id}><p  className=' bg-black text-gray-400 px-5 py-1.5 rounded-full'>{channel.name}</p></Link>
+                        </div>
+  
+                       
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className='flex justify-end sm:hidden'>
-                <button>
-                  {accordionOpen[index] ? <AiOutlineUp /> : <AiOutlineDown />}
-                </button>
-                </div>
-              </div>
-              {accordionOpen[index] && (
-                <div className='flex justify-end'>
-                  <p>{item.league.name}</p>
-                </div>
-              )}
-              </div>
+              }
+              
               
               
             </VerticalTimelineElement>

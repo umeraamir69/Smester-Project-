@@ -1,7 +1,7 @@
 import React, {  useEffect ,useState } from 'react'
-import User from '../../../models/User';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]';
+// import User from '../../../models/User';
+// import { getServerSession } from 'next-auth';
+// import { authOptions } from '../api/auth/[...nextauth]';
 import { HiOutlineRefresh } from "react-icons/hi";
 import UserPopup from '../../../components/dashboard/UserPopup';
 import { FaRegEdit } from "react-icons/fa";
@@ -9,7 +9,7 @@ import { MdDelete } from "react-icons/md";
 import Navbar from '../../../components/dashboard/Navbar';
 import { toast } from 'react-toastify';
 import Loader from '../../../components/universal/Loader';
-import connectToDatabase from '../../../middlewear/connectDb';
+// import connectToDatabase from '../../../middlewear/connectDb';
 
 
 const Users = (props) => {
@@ -449,38 +449,38 @@ const Users = (props) => {
   export default Users
 
 
-  export async function getServerSideProps(context) {
-      const session = await getServerSession(context.req, context.res, authOptions);
+  // export async function getServerSideProps(context) {
+  //     const session = await getServerSession(context.req, context.res, authOptions);
 
-      if (!session) {
-          return {
-              redirect: {
-                  destination: '/auth/Login',
-                  permanent: false,
-              },
-          };
-      } else {  
-        if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
-          const request = await fetch(`${process.env.URL}/api/users?_key=${process.env.API}`,{
-            method : 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-          },
-          })
+  //     if (!session) {
+  //         return {
+  //             redirect: {
+  //                 destination: '/auth/Login',
+  //                 permanent: false,
+  //             },
+  //         };
+  //     } else {  
+  //       if (session.user.email == 'admin'  && session.user.name =="_admin" ) {
+  //         const request = await fetch(`${process.env.URL}/api/users?_key=${process.env.API}`,{
+  //           method : 'GET',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //         },
+  //         })
   
-          const userData = await request.json()
+  //         const userData = await request.json()
 
-          return {
-            props: {userData: JSON.stringify(userData)}
-          }
-        }
-        return {
-          redirect: {
-              destination: '/auth/Login',
-              permanent: false,
-          },
-      };
+  //         return {
+  //           props: {userData: JSON.stringify(userData)}
+  //         }
+  //       }
+  //       return {
+  //         redirect: {
+  //             destination: '/auth/Login',
+  //             permanent: false,
+  //         },
+  //     };
 
-      }
-  }
+  //     }
+  // }
 

@@ -18,7 +18,7 @@ const menuItems = [
   {
     id: "Schedule",
     label: "Schedule",
-    path: "/Schedule",
+    path: "/schedule",
     icon: <AiOutlineSchedule size={25} />,
   },
   {
@@ -73,15 +73,15 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
             <ul className="mb-6 flex flex-col gap-1.5">
               {menuItems.map((menuItem) => (
                 <li key={menuItem.id} className="hover:bg-gray-400 rounded-lg">
-                  <label
-                    onClick={() => handleNavigate(menuItem)}
+                  <Link href={menuItem.path}
+
                     className={`group relative cursor-pointer flex items-center gap-2.5 gap-x-6 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark 
                              ${pathName.includes(menuItem.id) && "bg-graydark"}
                             `}
                   >
                     {menuItem.icon}
                     {menuItem.label}
-                  </label>
+                  </Link>
                 </li>
               ))}
               <li className=" rounded-lg">
@@ -142,7 +142,7 @@ export default function Sidebar({chanelData , leagueData , setfilter , filter}) 
                     <div className="flex flex-col gap-y-4 pl-5 pt-3">
 {filter&&  setfilter &&
 
-                    <div  className="flex gap-x-5 text-white hover:cursor-pointer" onClick={() => setfilter("123")}>
+                    <div  className="flex gap-x-5 text-white hover:cursor-pointer" onClick={() => setfilter()}>
                           <div className="flex flex-col justify-center">
                           <li>All Leagues</li>
                           </div>
