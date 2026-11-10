@@ -71,8 +71,8 @@ const GamePopup = ({
     setSearchTerm(e.target.value);
   };
 
-  const filteredChannels = Channels.filter((channel) =>
-    channel.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredChannels = (Channels || []).filter((channel) =>
+    (channel.name || '').toLowerCase().includes((searchTerm || '').toLowerCase())
   );
 
   return (

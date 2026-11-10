@@ -11,14 +11,29 @@ Product UI brand: **StreamBTW**.
 ### Home
 ![Home](docs/screenshots/home.jpg)
 
-### Sign in
-![Login](docs/screenshots/login.jpg)
-
-### Sign up
-![Signup](docs/screenshots/signup.jpg)
-
 ### Features section
 ![Features](docs/screenshots/features.jpg)
+
+### Dashboard overview
+![Dashboard overview](docs/screenshots/dash-overview.jpg)
+
+### Dashboard — users
+![Dashboard users](docs/screenshots/dash-users.jpg)
+
+### Dashboard — games
+![Dashboard games](docs/screenshots/dash-games.jpg)
+
+### Dashboard — leagues
+![Dashboard leagues](docs/screenshots/dash-leagues.jpg)
+
+### Dashboard — teams
+![Dashboard teams](docs/screenshots/dash-teams.jpg)
+
+### Dashboard — channels
+![Dashboard channels](docs/screenshots/dash-channels.jpg)
+
+### Dashboard — queries
+![Dashboard queries](docs/screenshots/dash-queries.jpg)
 
 ### Stripe — membership plans
 ![Stripe plans](docs/screenshots/stripe-plans.jpg)
