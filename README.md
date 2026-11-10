@@ -18,6 +18,18 @@ Built with **Next.js 14**, **NextAuth**, **MongoDB**, **Stripe**, and **Tailwind
 ### Features section
 ![StreamBTW features](docs/screenshots/features.jpg)
 
+### Stripe — membership plans
+![StreamBTW Stripe plans](docs/screenshots/stripe-plans.jpg)
+
+### Stripe — packages (admin)
+![StreamBTW Stripe packages](docs/screenshots/stripe-packages.jpg)
+
+### Stripe — balance (admin)
+![StreamBTW Stripe balance](docs/screenshots/stripe-balance.jpg)
+
+### Stripe — transactions (admin)
+![StreamBTW Stripe transactions](docs/screenshots/stripe-transactions.jpg)
+
 ## Features
 
 - Public landing page with live-sports branding

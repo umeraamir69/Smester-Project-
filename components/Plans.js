@@ -33,7 +33,7 @@ const Plans = (props) => {
   </div>
   <div className='flex flex-wrap'>
   
-  {data && data.length > 1 &&
+  {data && data.length > 0 &&
     <div className="flex flex-col justify-between items-center lg:flex-row lg:items-start space-x-3 ">
 
         {data.map((data , i)=>(
