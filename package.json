@@ -1,7 +1,8 @@
 {
-  "name": "smester-project",
+  "name": "streaming-semester-project",
   "version": "0.1.0",
   "private": true,
+  "description": "Streaming semester project with Stripe memberships, NextAuth, and MongoDB",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

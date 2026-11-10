@@ -1,42 +1,44 @@
-# StreamBTW
+# Streaming Semester Project
 
-Live HD streaming for PPV and sporting events — membership plans, auth, Stripe billing, and an admin dashboard.
+A full-stack **live sports / PPV streaming** semester project with **Stripe** memberships, auth, and an admin billing dashboard.
 
 Built with **Next.js 14**, **NextAuth**, **MongoDB**, **Stripe**, and **Tailwind CSS**.
+
+Product UI brand: **StreamBTW**.
 
 ## Screenshots
 
 ### Home
-![StreamBTW home](docs/screenshots/home.jpg)
+![Home](docs/screenshots/home.jpg)
 
 ### Sign in
-![StreamBTW login](docs/screenshots/login.jpg)
+![Login](docs/screenshots/login.jpg)
 
 ### Sign up
-![StreamBTW signup](docs/screenshots/signup.jpg)
+![Signup](docs/screenshots/signup.jpg)
 
 ### Features section
-![StreamBTW features](docs/screenshots/features.jpg)
+![Features](docs/screenshots/features.jpg)
 
 ### Stripe — membership plans
-![StreamBTW Stripe plans](docs/screenshots/stripe-plans.jpg)
+![Stripe plans](docs/screenshots/stripe-plans.jpg)
 
 ### Stripe — packages (admin)
-![StreamBTW Stripe packages](docs/screenshots/stripe-packages.jpg)
+![Stripe packages](docs/screenshots/stripe-packages.jpg)
 
 ### Stripe — balance (admin)
-![StreamBTW Stripe balance](docs/screenshots/stripe-balance.jpg)
+![Stripe balance](docs/screenshots/stripe-balance.jpg)
 
 ### Stripe — transactions (admin)
-![StreamBTW Stripe transactions](docs/screenshots/stripe-transactions.jpg)
+![Stripe transactions](docs/screenshots/stripe-transactions.jpg)
 
 ## Features
 
-- Public landing page with live-sports branding
+- Public landing page for live PPV / sports streaming
 - Email/password auth via NextAuth (credentials)
-- Membership / subscription checkout with Stripe
+- Membership plans and subscription billing with Stripe
 - Member schedule and media player views
-- Admin dashboard (users, packages, leagues, teams, games, channels, transactions)
+- Admin dashboard (users, packages, leagues, teams, games, channels, Stripe balance & transactions)
 
 ## Tech stack
 
@@ -61,10 +63,10 @@ Built with **Next.js 14**, **NextAuth**, **MongoDB**, **Stripe**, and **Tailwind
 ### Setup
 
 ```bash
-git clone https://github.com/umeraamir69/Smester-Project-.git
-cd Smester-Project-
+git clone https://github.com/umeraamir69/streaming-semester-project.git
+cd streaming-semester-project
 cp .env.example .env
-# fill in values in .env
+# fill in your own keys in .env — never commit real secrets
 npm install
 npm run dev
 ```
@@ -73,15 +75,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment variables
 
-Copy `.env.example` to `.env` and set at least:
+Copy `.env.example` to `.env` and set your own values. The example file ships **empty** (no real keys).
 
-- `MONGODB_URI` — Mongo connection string
-- `AUTH_SECRET` / `JWT_SECRET_KEY` — random secrets for sessions/JWT
-- `NEXTAUTH_URL` — `http://localhost:3000` locally
-- `STRIPE_PUBLISHABLE_KEY` / `STRIPE_SECRET_KEY` — Stripe keys
-- `RECAPTCHA_SITE_KEY` / `RECAPTCHA_SECRET_KEY` — if using captcha
+Required for a working local run:
 
-Never commit `.env`. It is gitignored.
+- `MONGODB_URI`
+- `AUTH_SECRET` / `JWT_SECRET_KEY`
+- `NEXTAUTH_URL` (`http://localhost:3000` locally)
+- `STRIPE_PUBLISHABLE_KEY` / `STRIPE_SECRET_KEY`
+- `RECAPTCHA_SITE_KEY` / `RECAPTCHA_SECRET_KEY` (if using captcha)
+
+`.env` is gitignored. Do not commit secrets.
 
 ### Scripts
 
@@ -106,8 +110,8 @@ docs/screenshots/    # README screenshots
 
 ## Security note
 
-This repository was previously tracking a real `.env`. That file is no longer in the tree. **Rotate every secret that was ever committed** (Stripe, MongoDB, JWT, NextAuth, reCAPTCHA) before using this project in production.
+Earlier commits may have contained a real `.env`. All secret values have been removed from the working tree. **Rotate every secret that was ever committed** (Stripe, MongoDB, JWT, NextAuth, reCAPTCHA) before using this in production.
 
 ## License
 
-Private / academic semester project unless otherwise stated.
+Academic semester project unless otherwise stated.
