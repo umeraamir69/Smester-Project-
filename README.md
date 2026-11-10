@@ -1,40 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# StreamBTW
 
-## Getting Started
+Live HD streaming for PPV and sporting events — membership plans, auth, Stripe billing, and an admin dashboard.
 
-First, run the development server:
+Built with **Next.js 14**, **NextAuth**, **MongoDB**, **Stripe**, and **Tailwind CSS**.
+
+## Screenshots
+
+### Home
+![StreamBTW home](docs/screenshots/home.jpg)
+
+### Sign in
+![StreamBTW login](docs/screenshots/login.jpg)
+
+### Sign up
+![StreamBTW signup](docs/screenshots/signup.jpg)
+
+### Features section
+![StreamBTW features](docs/screenshots/features.jpg)
+
+## Features
+
+- Public landing page with live-sports branding
+- Email/password auth via NextAuth (credentials)
+- Membership / subscription checkout with Stripe
+- Member schedule and media player views
+- Admin dashboard (users, packages, leagues, teams, games, channels, transactions)
+
+## Tech stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js 14 (Pages Router) |
+| UI | React 18, Tailwind CSS |
+| Auth | NextAuth.js |
+| Database | MongoDB + Mongoose |
+| Payments | Stripe |
+| Bot protection | Google reCAPTCHA |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18+
+- A MongoDB database (Atlas or local)
+- Stripe account (test keys are fine for local)
+- reCAPTCHA keys (optional for some flows)
+
+### Setup
 
 ```bash
+git clone https://github.com/umeraamir69/Smester-Project-.git
+cd Smester-Project-
+cp .env.example .env
+# fill in values in .env
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Environment variables
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Copy `.env.example` to `.env` and set at least:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- `MONGODB_URI` — Mongo connection string
+- `AUTH_SECRET` / `JWT_SECRET_KEY` — random secrets for sessions/JWT
+- `NEXTAUTH_URL` — `http://localhost:3000` locally
+- `STRIPE_PUBLISHABLE_KEY` / `STRIPE_SECRET_KEY` — Stripe keys
+- `RECAPTCHA_SITE_KEY` / `RECAPTCHA_SECRET_KEY` — if using captcha
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Never commit `.env`. It is gitignored.
 
-## Learn More
+### Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev      # development server
+npm run build    # production build
+npm run start    # run production build
+npm run lint     # ESLint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+components/          # UI (home, auth, dashboard)
+src/pages/           # Routes + API handlers
+  auth/              # Login, create account
+  dashboard/         # Admin panels
+  api/               # Auth, Stripe, CRUD APIs
+public/images/       # Static assets
+docs/screenshots/    # README screenshots
+```
 
-## Deploy on Vercel
+## Security note
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This repository was previously tracking a real `.env`. That file is no longer in the tree. **Rotate every secret that was ever committed** (Stripe, MongoDB, JWT, NextAuth, reCAPTCHA) before using this project in production.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+
+Private / academic semester project unless otherwise stated.

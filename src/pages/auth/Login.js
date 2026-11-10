@@ -147,16 +147,7 @@ export default function Login() {
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-        const amember_login = 'someones';
-        const amember_pass = 'Admin123..';
-    
-        const url = 'https://securepayments.live/secure/login';
-    
-        // Create URLSearchParams object and append form data
-        const formBody = new URLSearchParams();
-        formBody.append('amember_login', amember_login);
-        formBody.append('amember_pass', amember_pass);
-    
+
         try {
 
             if (captchav2 && recaptchaValue === null) {

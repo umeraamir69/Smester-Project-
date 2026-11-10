@@ -12,7 +12,6 @@
     "@auth/mongodb-adapter": "^3.0.0",
     "@clappr/player": "^0.6.0",
     "@emotion/react": "^11.11.4",
-    "@garvae/react-pie-chart": "^1.1.5-deprecated",
     "@headlessui/react": "^2.0.3",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-charts": "^7.4.0",
